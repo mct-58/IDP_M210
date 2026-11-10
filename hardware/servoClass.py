@@ -1,5 +1,4 @@
 from machine import Pin, PWM
-import time
 
 class Servo:
     # Common settings for 270° servos:
