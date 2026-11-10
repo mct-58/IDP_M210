@@ -1,22 +1,17 @@
 class DriveTrain:
-    def __init__(self, rightMotor, leftMotor):
-        self.rightMotor = rightMotor
+    def __init__(self, leftMotor, rightMotor):
         self.leftMotor = leftMotor
-
-    def _speed_splitter(self, speed):
-        mod_speed = 0
-        dir = 0
+        self.rightMotor = rightMotor
+        
+    def _set_motor(self, motor, speed):
         if speed < 0:
-            mod_speed = speed * -1
-            dir = 0
+            motor.reverse(abs(speed))
         else:
-            mod_speed = speed
-            dir = 1
-        return mod_speed, dir
+            motor.forward(speed)
 
     def drive(self, leftSpeed, rightSpeed):
-        self.leftMotor._duty_value(leftSpeed)
-        self.rightMotor._duty_value(rightSpeed)
+        self._set_motor(leftMotor, leftSpeed)
+        self._set_motor(rightMotor, rightSpeed)
 
     def stop(self):
         self.rightMotor.off()
