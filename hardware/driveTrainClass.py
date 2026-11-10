@@ -10,8 +10,8 @@ class DriveTrain:
             motor.forward(speed)
 
     def drive(self, leftSpeed, rightSpeed):
-        self._set_motor(leftMotor, leftSpeed)
-        self._set_motor(rightMotor, rightSpeed)
+        self._set_motor(self.leftMotor, leftSpeed)
+        self._set_motor(self.rightMotor, rightSpeed)
 
     def stop(self):
         self.rightMotor.off()
