@@ -22,12 +22,12 @@ class Servo:
     MID_DUTY = 4915 # 135°
     MAX_DUTY = 8192 # 270°
     
-    def __init__(self, ServoPin):
-        self.servo = PWM(Pin(ServoPin))
+    def __init__(self, servoPin):
+        self.servo = PWM(Pin(servoPin))
         self.servo.freq(50)  # 50 Hz for servo
  
     # Convert angle (0–270) to duty
-    def set_angle(self, angle):
+    def setAngle(self, angle):
        # Clamp angle
        if angle < 0:
            angle = 0

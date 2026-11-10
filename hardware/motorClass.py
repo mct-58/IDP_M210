@@ -1,17 +1,17 @@
 from machine import Pin, PWM
 
 class Motor:
-    def __init__(self, dirPin, PWMPin, pwm_freq, is_reversed):
+    def __init__(self, dirPin, pwmPin, pwmFreq, isReversed):
         self.mDir = Pin(dirPin, Pin.OUT)  # set motor direction pin
-        self.pwm = PWM(Pin(PWMPin))  # set motor pwm pin
-        self.pwm.freq(pwm_freq)  # set PWM frequency
+        self.pwm = PWM(Pin(pwmPin))  # set motor pwm pin
+        self.pwm.freq(pwmFreq)  # set PWM frequency
         self.pwm.duty_u16(0)  # set duty cycle - 0=off
-        self.is_reversed = is_reversed
+        self.isReversed = isReversed
 
     def off(self):
         self.pwm.duty_u16(0)
         
-    def _duty_value(self, speed):
+    def _dutyValue(self, speed):
         if speed < 0:
             speed = 0
         if speed > 100:
@@ -19,9 +19,9 @@ class Motor:
         return int(65535 * speed / 100)
 
     def forward(self, speed):
-        self.mDir.value(self.is_reversed)
-        self.pwm.duty_u16(self._duty_value(speed))  # speed range 0-100 motor
+        self.mDir.value(self.isReversed)
+        self.pwm.duty_u16(self._dutyValue(speed))  # speed range 0-100 motor
 
     def reverse(self, speed):
-        self.mDir.value(not self.is_reversed)
-        self.pwm.duty_u16(self._duty_value(speed))
+        self.mDir.value(not self.isReversed)
+        self.pwm.duty_u16(self._dutyValue(speed))
