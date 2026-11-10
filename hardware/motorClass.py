@@ -6,7 +6,7 @@ class Motor:
         self.pwm = PWM(Pin(PWMPin))  # set motor pwm pin
         self.pwm.freq(pwm_freq)  # set PWM frequency
         self.pwm.duty_u16(0)  # set duty cycle - 0=off
-        self.reversed = is_reversed
+        self.is_reversed = is_reversed
 
     def off(self):
         self.pwm.duty_u16(0)
@@ -19,9 +19,9 @@ class Motor:
         return int(65535 * speed / 100)
 
     def forward(self, speed):
-        self.mDir.value((self.reversed)                     # forward = 0 reverse = 1 motor
+        self.mDir.value(self.is_reversed)
         self.pwm.duty_u16(self._duty_value(speed))  # speed range 0-100 motor
 
     def reverse(self, speed):
-        self.mDir.value(not self.reversed)
+        self.mDir.value(not self.is_reversed)
         self.pwm.duty_u16(self._duty_value(speed))
