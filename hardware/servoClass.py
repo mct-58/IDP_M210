@@ -23,7 +23,7 @@ class Servo:
     MAX_DUTY = 8192 # 270°
     
     def __init__(self, ServoPin):
-        self.servo = PWM(ServoPin)
+        self.servo = PWM(Pin(ServoPin))
         self.servo.freq(50)  # 50 Hz for servo
  
     # Convert angle (0–270) to duty
