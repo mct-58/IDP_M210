@@ -1,4 +1,4 @@
-from machine import PWM, Pin
+from machine import Pin
 
 class LineSensors:
     def __init__(self, olPinNum, ilPinNum, irPinNum, orPinNum, positiveLineValue):
