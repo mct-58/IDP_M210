@@ -18,7 +18,7 @@ class Servo:
     # Duty value = Duty Fraction x 65535
     # Minimum (0.5 ms) = 0.025 * 65535
     # Centre (1.5 ms) = 0.075 * 65535
-    # Maximum (2.5 ms) = 0.0125 * 65535
+    # Maximum (2.5 ms) = 0.125 * 65535
     MIN_DUTY = 1638 # 0°
     MID_DUTY = 4915 # 135°
     MAX_DUTY = 8192 # 270°
