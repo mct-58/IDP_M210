@@ -1,5 +1,4 @@
 from machine import Pin, PWM
-import config
 
 class Motor:
     def __init__(self, dirPin, PWMPin):
@@ -13,6 +12,10 @@ class Motor:
         
     def Forward(self, speed=50):
         self.mDir.value(0)                     # forward = 0 reverse = 1 motor
+        if speed < 0:
+            speed = 0
+        if speed > 100:
+            speed = 100
         self.pwm.duty_u16(int(65535 * speed / 100))  # speed range 0-100 motor
 
     def Reverse(self, speed=50):
