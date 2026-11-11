@@ -21,10 +21,11 @@ try:
         ol, il, ir, orr = lineSensors.read()
         lSpeed, rSpeed = lineFollower.update(il, ir)
         driveTrain.drive(lSpeed, rSpeed)
+        elapsed = ticks_diff(ticks_ms(), loopStart)
         if ticks_diff(ticks_ms(), runStart) > config.RUN_TIME_MS:
             break 
-        if ticks_diff(ticks_ms(), loopStart) < config.LOOP_PERIOD_MS:
-            sleep_ms(config.LOOP_PERIOD_MS - ticks_diff(ticks_ms(), loopStart))
+        if elapsed < config.LOOP_PERIOD_MS:
+            sleep_ms(config.LOOP_PERIOD_MS - elapsed)
 finally:
     driveTrain.stop()
     print('Whoopsies, it seems the robot has taken a quick pit stop! ')
