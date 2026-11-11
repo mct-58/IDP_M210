@@ -20,3 +20,6 @@ class LineFollower:
             return (self.baseSpeed, self.baseSpeed * self.lostFraction)
         if not innerLeft and not innerRight and self.lastSide == None:
             return (0,0)
+
+    def reset(self):
+        self.lastSide = None
