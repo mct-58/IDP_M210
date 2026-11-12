@@ -10,9 +10,9 @@ TEST_SPEED = 40
 STEP_MS = 2000
 
 leftMotor = Motor(config.LEFT_MOTOR_DIR_PIN, config.LEFT_MOTOR_PWM_PIN,
-                  config.MOTOR_PWM_FREQ_HZ, config.LEFT_MOTOR_REVERSED)
+                  config.MOTOR_PWM_FREQ_HZ, config.LEFT_MOTOR_REVERSED, config.LEFT_MOTOR_MIN_SPEED)
 rightMotor = Motor(config.RIGHT_MOTOR_DIR_PIN, config.RIGHT_MOTOR_PWM_PIN,
-                   config.MOTOR_PWM_FREQ_HZ, config.RIGHT_MOTOR_REVERSED)
+                   config.MOTOR_PWM_FREQ_HZ, config.RIGHT_MOTOR_REVERSED, config.RIGHT_MOTOR_MIN_SPEED)
 driveTrain = DriveTrain(leftMotor, rightMotor)
 
 
