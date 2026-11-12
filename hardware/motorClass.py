@@ -1,12 +1,13 @@
 from machine import Pin, PWM
 
 class Motor:
-    def __init__(self, dirPin, pwmPin, pwmFreq, isReversed):
+    def __init__(self, dirPin, pwmPin, pwmFreq, isReversed, stallSpeed):
         self.mDir = Pin(dirPin, Pin.OUT)  # set motor direction pin
         self.pwm = PWM(Pin(pwmPin))  # set motor pwm pin
         self.pwm.freq(pwmFreq)  # set PWM frequency
         self.pwm.duty_u16(0)  # set duty cycle - 0=off
         self.isReversed = isReversed
+        self.stallSpeed = stallSpeed
 
     def off(self):
         self.pwm.duty_u16(0)
