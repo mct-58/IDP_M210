@@ -42,7 +42,7 @@ try:
     for name, sign in (("LEFT", (1, 0)), ("RIGHT", (0, 1))):
         print("8. Stall sweep,", name, "wheel - note the first speed where it turns")
         sleep_ms(1500)
-        for speed in range(5, 45, 5):
+        for speed in range(5, 80, 5):
             print("   speed", speed)
             driveTrain.drive(speed * sign[0], speed * sign[1])
             sleep_ms(1500)
