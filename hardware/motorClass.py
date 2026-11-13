@@ -17,6 +17,8 @@ class Motor:
             speed = 0
         if speed > 100:
             speed = 100
+        if speed == 0:
+            return 0
         return int(65535/100 * (self.stallSpeed + (100 - self.stallSpeed) * speed / 100))
 
     def forward(self, speed):
