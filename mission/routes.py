@@ -20,3 +20,13 @@ MONDAY = [
     ('follow', 1, 'right'),  # the centre line meeting the front line at the box
     ('drive', 400, 40),      # into the box
 ]
+
+FOLLOW_ONLY = [('follow', 99, 'any')]                                    # follows until the backstop
+
+COUNT_LEFT  = [('follow', 99, 'left')]                                   # prints the left-junction count as it drives
+
+TURN_TEST   = [('follow', 1, 'any'), ('turn', 'left'), ('follow', 99, 'any')]
+
+SPIN_TEST   = [('spin', 'left'), ('follow', 99, 'any')]
+
+END_TEST    = [('toEnd',)]                                               # start on a stub, stops at the end
