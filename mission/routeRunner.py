@@ -36,18 +36,19 @@ class Runner:
             self._beginStep(now)
 
     def update(self, ol, il, ir, orr, now):
-        step = self.route[self.stepIndex]
 
         if self.finished:
             return (0,0)
+
+        step = self.route[self.stepIndex]
 
         if step[0] == 'follow':
             speeds = self.follower.update(il, ir)
             j = self.detector.update(ol, orr, now)
             if j is not None and (j == step[2] or step[2] == 'any'):
                 self.junctionCount += 1
-                if self.junctionCount == step[1]
-                self._nextStep(now)
+                if self.junctionCount == step[1]:
+                    self._nextStep(now)
             return speeds
 
         if step[0] == 'turn' or step[0] == 'spin':
