@@ -35,4 +35,8 @@ class Runner:
     def update(self, ol, il, ir, orr, now):
         if self.finished;
             return (0,0)
-
+        if self.route[self.stepIndex] == '':
+        if self.route[self.stepIndex] == '':
+        if self.route[self.stepIndex] == '':
+        if self.route[self.stepIndex] == '':
+        if self.route[self.stepIndex] == '':
