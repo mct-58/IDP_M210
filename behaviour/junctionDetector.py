@@ -13,6 +13,11 @@ class JunctionDetector:
             if not ol and not orr:
                 self.armed = True
             return None
+
+        if not ol and not orr:
+            self.candidateStart = None
+            return None
+
         if self.armed and (ol or orr):
             if self.candidateStart is None:
                 self.candidateStart = now
@@ -23,7 +28,7 @@ class JunctionDetector:
                 if orr:
                     self.sawRight = True
                 return None
-                
+
             if ol:
                 self.sawLeft = True
             if orr:
@@ -42,3 +47,9 @@ class JunctionDetector:
                     self.candidateStart = None
                     self.armed = False
                     return 'Right'
+        
+    def reset(self):
+        self.armed = False
+        self.candidateStart = None
+        self.sawLeft = False
+        self.sawRight = False
