@@ -38,15 +38,15 @@ class JunctionDetector:
                 if self.sawLeft and self.sawRight:
                     self.candidateStart = None
                     self.armed = False
-                    return 'Both'
+                    return 'both'
                 if self.sawLeft:
                     self.candidateStart = None
                     self.armed = False
-                    return 'Left'
+                    return 'left'
                 if self.sawRight:
                     self.candidateStart = None
                     self.armed = False
-                    return 'Right'
+                    return 'right'
         
     def reset(self):
         self.armed = False
