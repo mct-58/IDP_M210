@@ -23,15 +23,22 @@ class JunctionDetector:
                 if orr:
                     self.sawRight = True
                 return None
-            if ticks_diff(now, self.candidateStart) <= self.confirmMS:
-                if ol:
-                    self.sawLeft = True
-                if orr:
-                    self.sawRight = True
+                
+            if ol:
+                self.sawLeft = True
+            if orr:
+                self.sawRight = True
+            
             if ticks_diff(now, self.candidateStart) >= self.confirmMS:
-                if ol and orr:
+                if self.sawLeft and self.sawRight:
+                    self.candidateStart = None
+                    self.armed = False
                     return 'Both'
-                if ol:
+                if self.sawLeft:
+                    self.candidateStart = None
+                    self.armed = False
                     return 'Left'
-                if orr:
+                if self.sawRight:
+                    self.candidateStart = None
+                    self.armed = False
                     return 'Right'
