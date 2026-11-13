@@ -20,23 +20,25 @@ class Runner:
         self.lostSince = None
         self.follower.reset()
         self.detector.reset()
-        if self.route[self.stepIndex] == 'turn':
-            self.turn.start(self.route[self.stepIndex][1], now, True)
-        if self.route[self.stepIndex] == 'spin':
-            self.turn.start(self.route[self.stepIndex][1], now, False)
+        step = self.route[self.stepIndex]
+        if step[0] == 'turn':
+            self.turn.start(step[1], now, True)
+        if step[0] == 'spin':
+            self.turn.start(step[1], now, False)
 
     def _nextStep(self, now):
         self.stepIndex += 1
-        if self.stepIndex > len(self.route):
+        if self.stepIndex >= len(self.route):
             self.finished = True
         else:
             self._beginStep(now)
 
     def update(self, ol, il, ir, orr, now):
-        if self.finished;
+        step = self.route[self.stepIndex]
+        if self.finished:
             return (0,0)
-        if self.route[self.stepIndex] == '':
-        if self.route[self.stepIndex] == '':
-        if self.route[self.stepIndex] == '':
-        if self.route[self.stepIndex] == '':
-        if self.route[self.stepIndex] == '':
+        if step == '':
+        if step == '':
+        if step == '':
+        if step == '':
+        if step == '':
