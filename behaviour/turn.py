@@ -36,7 +36,6 @@ class Turn:
                 return ('done', 0, 0)
             if self.direction == 'left':
                 return ('running', -self.turnSpeed, self.turnSpeed)
-            if self.direction == 'right':
-                return ('running', self.turnSpeed, -self.turnSpeed)
+            return ('running', self.turnSpeed, -self.turnSpeed)
 
             
