@@ -1,4 +1,3 @@
-from behaviour import junctionDetector
 import config
 from hardware.motorClass import Motor
 from hardware.driveTrainClass import DriveTrain
@@ -33,7 +32,7 @@ try:
         loopStart = ticks_ms()
         ol, il, ir, orr = lineSensors.read()
         left, right = runner.update(ol, il, ir, orr, loopStart)
-        driveTrain.drive(lSpeed, rSpeed)
+        driveTrain.drive(left, right)
         
         if runner.stepIndex != lastStep:
             print('step', runner.stepIndex, route[runner.stepIndex] if not runner.finished else 'END')
