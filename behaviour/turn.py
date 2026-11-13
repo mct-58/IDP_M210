@@ -5,7 +5,7 @@ class Turn:
         self.turnSpeed = turnSpeed
         self.advanceMs = advanceMs
         self.minMs = minMs
-        self.timoutMs = timeoutMs
+        self.timeoutMs = timeoutMs
         self.direction = None
         self.phase = None
         self.turnStart = None
@@ -25,9 +25,18 @@ class Turn:
             self.phase = None
             return ('timeout', 0, 0)
         if self.phase == 'advance':
-            if ticks_diff(now, self.phase) >= self.advanceMs:
+            if ticks_diff(now, self.phaseStart) >= self.advanceMs:
                 self.phase = 'pivot'
                 self.phaseStart = now
             else:
                 return ('running', self.turnSpeed, self.turnSpeed)
+        if self.phase == 'pivot':
+            if ticks_diff(now, self.phaseStart) >= self.minMs and (il or ir):
+                self.phase = None
+                return ('done', 0, 0)
+            if self.direction == 'left':
+                return ('running', -self.turnSpeed, self.turnSpeed)
+            if self.direction == 'right':
+                return ('running', self.turnSpeed, -self.turnSpeed)
+
             
