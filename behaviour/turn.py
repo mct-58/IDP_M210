@@ -7,6 +7,7 @@ class Turn:
         self.minMs = minMs
         self.timeoutMs = timeoutMs
         self.spinMinMs = spinMinMs
+        self.activeMinMs = 0
         self.direction = None
         self.phase = None
         self.turnStart = None
@@ -18,8 +19,10 @@ class Turn:
         self.phaseStart= now
         if advance:
             self.phase = 'advance'
+            self.activeMinMs = self.minMs
         if not advance:
             self.phase = 'pivot'
+            self.activeMinMs = self.spinMinMs
 
     def update(self, il, ir, now):
         if ticks_diff(now, self.turnStart) >= self.timeoutMs:
@@ -32,7 +35,7 @@ class Turn:
             else:
                 return ('running', self.turnSpeed, self.turnSpeed)
         if self.phase == 'pivot':
-            if ticks_diff(now, self.phaseStart) >= self.spinMinMs and (il or ir):
+            if ticks_diff(now, self.phaseStart) >= self.activeMinMs and (il or ir):
                 self.phase = None
                 return ('done', 0, 0)
             if self.direction == 'left':
