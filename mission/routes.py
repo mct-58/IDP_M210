@@ -30,3 +30,5 @@ TURN_TEST   = [('follow', 1, 'any'), ('turn', 'left'), ('follow', 99, 'any')]
 SPIN_TEST   = [('spin', 'left'), ('follow', 99, 'any')]
 
 END_TEST    = [('toEnd',)]                                               # start on a stub, stops at the end
+
+SPEED_TEST = [('drive', 2000, 50)]
