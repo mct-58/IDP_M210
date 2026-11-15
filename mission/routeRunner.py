@@ -24,9 +24,11 @@ class Runner:
         self.detector.reset()
         step = self.route[self.stepIndex]
         if step[0] == 'turn':
-            self.turn.start(step[1], now, True)
+            self.turn.start(step[1], now, 'junction')
         if step[0] == 'spin':
-            self.turn.start(step[1], now, False)
+            self.turn.start(step[1], now, 'spin')
+        if step[0] == 'pivot':
+            self.turn.start(step[1], now, 'pivot')
 
     def _nextStep(self, now):
         self.stepIndex += 1
@@ -51,7 +53,7 @@ class Runner:
                     self._nextStep(now)
             return speeds
 
-        if step[0] == 'turn' or step[0] == 'spin':
+        if step[0] == 'turn' or step[0] == 'spin' or step[0] == 'pivot':
             status, l, r = self.turn.update(il, ir, now)
             if status =='done':
                 self._nextStep(now)
