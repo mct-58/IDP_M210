@@ -15,7 +15,7 @@ driveTrain = DriveTrain(leftMotor, rightMotor)
 lineSensors = LineSensors(config.LINE_OUTER_LEFT_PIN, config.LINE_INNER_LEFT_PIN, config.LINE_INNER_RIGHT_PIN, config.LINE_OUTER_RIGHT_PIN, config.LINE_DETECTED_VALUE)
 lineFollower = LineFollower(config.BASE_SPEED, config.TURN_BIAS_FRACTION, config.LOST_TURN_FRACTION)
 junctionDetector = JunctionDetector(config.JUNCTION_CONFIRM_MS)
-turn = Turn(config.TURN_SPEED, config.JUNCTION_ADVANCE_MS, config.TURN_MIN_MS, config.TURN_TIMEOUT_MS)
+turn = Turn(config.TURN_SPEED, config.JUNCTION_ADVANCE_MS, config.TURN_MIN_MS, config.TURN_TIMEOUT_MS, config.SPIN_MIN_MS)
 
 route = getattr(routes, config.ROUTE_NAME)
 runner = Runner(route, lineFollower, junctionDetector, turn, config.LINE_END_MS)

@@ -1,11 +1,12 @@
 from utime import ticks_diff
 
 class Turn:
-    def __init__(self, turnSpeed, advanceMs, minMs, timeoutMs):
+    def __init__(self, turnSpeed, advanceMs, minMs, timeoutMs, spinMinMs):
         self.turnSpeed = turnSpeed
         self.advanceMs = advanceMs
         self.minMs = minMs
         self.timeoutMs = timeoutMs
+        self.spinMinMs = spinMinMs
         self.direction = None
         self.phase = None
         self.turnStart = None
@@ -31,7 +32,7 @@ class Turn:
             else:
                 return ('running', self.turnSpeed, self.turnSpeed)
         if self.phase == 'pivot':
-            if ticks_diff(now, self.phaseStart) >= self.minMs and (il or ir):
+            if ticks_diff(now, self.phaseStart) >= self.spinMinMs and (il or ir):
                 self.phase = None
                 return ('done', 0, 0)
             if self.direction == 'left':
