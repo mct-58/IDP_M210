@@ -5,8 +5,8 @@ class Button:
         self.pin = Pin(pinNum, Pin.IN, Pin.PULL_DOWN)
         self.onValue = onValue
 
-    def read(self, onValue):
-        if self.pin.value() == onValue:
+    def read(self):
+        if self.pin.value() == self.onValue:
             return True
         else:
             return False
