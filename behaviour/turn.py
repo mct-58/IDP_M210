@@ -42,7 +42,7 @@ class Turn:
         if self.phase == 'pivot':
             if not il and not ir:
                 self.seenOff = True
-            if ticks_diff(now, self.phaseStart) >= self.activeMinMs and (il or ir) and self.seenOff:
+            if ticks_diff(now, self.phaseStart) >= self.activeMinMs and il and ir and self.seenOff:
                 self.phase = None
                 return ('done', 0, 0)
             if self.direction == 'left':

@@ -61,6 +61,11 @@ class Runner:
                 self.finished = True
             return (l, r)
 
+        if step[0] == 'toBox':
+            if il + ir + ol + orr >= 3:        # True counts as 1, so this counts sensors on the line
+                self._nextStep(now)
+                return (0, 0)
+            return self.follower.update(il, ir)
 
         if step[0] == 'toEnd':
             if il or ir:
