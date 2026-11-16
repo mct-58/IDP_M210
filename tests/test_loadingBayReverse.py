@@ -31,8 +31,8 @@ ROUTE = [
     ('wait', MEASURE_MS),
     ('drive', REVERSE_MS, -REVERSE_SPEED),
     ('wait', MEASURE_MS),
-    ('pivot', 'left'),
-    ('follow', 1, 'right'),
+    ('pivot', 'right'),      # was 'left': facing east, right turns south
+    ('follow', 1, 'left'),   # was 'right': on the left side, stubs and the corner are on the robot's left
 ]
 
 NOTES = [
