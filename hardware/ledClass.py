@@ -2,7 +2,7 @@ from machine import Pin
 
 class LED:
     def __init__(self, pinNum, onValue):
-        self.pin = Pin(pinNum, Pin.OUT, value=0)
+        self.pin = Pin(pinNum, Pin.OUT, value=1)
         self.onValue = onValue
         self.status = False
 
@@ -11,7 +11,7 @@ class LED:
         self.status = True
 
     def off(self):
-        self.pin.value((self.onValue - 1) ** 2)
+        self.pin.value(1 - self.onValue)
         self.status = False
 
     def set(self, state):
