@@ -1,5 +1,8 @@
 from machine import Pin, PWM
 
+
+
+
 class Servo:
     # Common settings for 270° servos:
     # 0.5 ms → minimum (0°)
@@ -42,3 +45,4 @@ class Servo:
 
     def off(self):
         self.servoPin.duty_u16(0)
+
