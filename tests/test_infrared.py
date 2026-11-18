@@ -1,4 +1,4 @@
-from machine import Pin
+from machine import ADC, Pin
 from utime import sleep
 
 def test_infrared():
@@ -16,10 +16,10 @@ def test_infrared():
     sensor = Pin(28, Pin.IN)
 
         # Read ten samples
-    for _ in range(100):
+    for _ in range(1000):
         strength = sensor.value()
         print(f"strength = {strength}")  # Check calibration!
-        sleep(0.5)
+        sleep(0.01)
         
         # Stop device
  
