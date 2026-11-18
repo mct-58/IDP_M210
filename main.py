@@ -20,7 +20,7 @@ turn = Turn(config.TURN_SPEED, config.JUNCTION_ADVANCE_MS, config.TURN_MIN_MS, c
 route = getattr(routes, config.ROUTE_NAME)
 runner = Runner(route, lineFollower, junctionDetector, turn, config.LINE_END_MS)
 
-print('Hello World!, Team M210 is the bestest team every and will win the IDP')
+print('Hello World!, Team M210 is the bestest team ever and will win the IDP')
 sleep_ms(3000)
 
 try:
