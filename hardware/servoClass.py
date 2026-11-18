@@ -22,17 +22,23 @@ class Servo:
     MID_DUTY = 4915 # 135°
     MAX_DUTY = 8192 # 270°
     
-    def __init__(self, servoPin):
-        self.servo = PWM(Pin(servoPin))
-        self.servo.freq(50)  # 50 Hz for servo
+    def __init__(self, servoPinNum, minAngle, maxAngle):
+        self.servoPin = PWM(Pin(servoPinNum))
+        self.servoPin.freq(50)  # 50 Hz for servo
+        self.minAngle = minAngle
+        self.maxAngle = maxAngle
+        
  
     # Convert angle (0–270) to duty
     def setAngle(self, angle):
        # Clamp angle
-       if angle < 0:
-           angle = 0
-       if angle > 270:
-           angle = 270
+       if angle < self.minAngle:
+           angle = self.minAngle
+       if angle > self.maxAngle:
+           angle = self.maxAngle
  
-       duty = int(Servo.MIN_DUTY + (angle / 270) * (Servo.MAX_DUTY - Servo.MIN_DUTY))
-       self.servo.duty_u16(duty) 
+       duty = int(self.MIN_DUTY + (angle / 270) * (self.MAX_DUTY - self.MIN_DUTY))
+       self.servoPin.duty_u16(duty)
+
+    def off(self):
+        self.servoPin.duty_u16(0)
