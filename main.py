@@ -2,12 +2,18 @@ import config
 from hardware.motorClass import Motor
 from hardware.driveTrainClass import DriveTrain
 from hardware.lineSensorsClass import LineSensors
+from hardware.servoClass import Servo
+from Hardware.gripperClass import Grip
+from Hardware.lifterClass import Lift
 from behaviour.lineFollow import LineFollower
 from behaviour.junctionDetector import JunctionDetector
 from behaviour.turn import Turn
+from behaviour.packageHandler import PackageHandler
 from mission.routeRunner import Runner
 from mission import routes
 from utime import ticks_ms, ticks_diff, sleep_ms
+
+
 
 leftMotor = Motor(config.LEFT_MOTOR_DIR_PIN, config.LEFT_MOTOR_PWM_PIN, config.MOTOR_PWM_FREQ_HZ, config.LEFT_MOTOR_REVERSED, config.LEFT_MOTOR_MIN_SPEED)
 rightMotor = Motor(config.RIGHT_MOTOR_DIR_PIN, config.RIGHT_MOTOR_PWM_PIN, config.MOTOR_PWM_FREQ_HZ, config.RIGHT_MOTOR_REVERSED, config.RIGHT_MOTOR_MIN_SPEED)
@@ -16,9 +22,14 @@ lineSensors = LineSensors(config.LINE_OUTER_LEFT_PIN, config.LINE_INNER_LEFT_PIN
 lineFollower = LineFollower(config.BASE_SPEED, config.TURN_BIAS_FRACTION, config.LOST_TURN_FRACTION)
 junctionDetector = JunctionDetector(config.JUNCTION_CONFIRM_MS)
 turn = Turn(config.TURN_SPEED, config.JUNCTION_ADVANCE_MS, config.TURN_MIN_MS, config.TURN_TIMEOUT_MS, config.SPIN_MIN_MS)
+gripServo = Servo(config.GRIP_SERVO_PIN, config.GRIP_MIN_ANGLE, config.GRIP_MAX_ANGLE)
+liftServo = Servo(config.LIFT_SERVO_PIN, config.LIFT_MIN_ANGLE, config.LIFT_MAX_ANGLE)
+gripper = Grip(gripServo, config.GRIP_CLOSED_ANGLE, config.GRIP_OPEN_ANGLE)
+lifter = Lift(liftServo, config.LIFT_UP_ANGLE, config.LIFT_DOWN_ANGLE)
+packageHandler = PackageHandler(config.GRIP_MOVE_MS, config.LIFT_MOVE_MS)
 
 route = getattr(routes, config.ROUTE_NAME)
-runner = Runner(route, lineFollower, junctionDetector, turn, config.LINE_END_MS)
+runner = Runner(route, lineFollower, junctionDetector, turn, config.LINE_END_MS, packageHandler)
 
 print('Hello World!, Team M210 is the bestest team ever and will win the IDP')
 sleep_ms(3000)
@@ -32,6 +43,17 @@ try:
         loopStart = ticks_ms()
         ol, il, ir, orr = lineSensors.read()
         left, right = runner.update(ol, il, ir, orr, loopStart)
+        if runner.packageCommand == 'grip':
+            gripper.grip()
+        elif runner.packageCommand == 'release':
+            gripper.release()
+        elif runner.packageCommand == 'lift':
+            lifter.lift()
+        elif runner.packageCommand == 'lower':
+            lifter.lower()
+        elif runner.packageCommand is not None:
+            raise RuntimeError('unknown package handler command: ' + runner.packageCommand)
+
         driveTrain.drive(left, right)
         
         if runner.stepIndex != lastStep:

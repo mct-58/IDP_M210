@@ -20,7 +20,28 @@ MONDAY = [
     ('follow', 1, 'right'),  # the centre line meeting the front line at the box
     ('drive', 400, 40),      # into the box
 ]
-
+GRAB_TEST = [
+    ('follow', 1, 'left'),   # along the front line to the bottom-right corner
+    ('turn', 'left'),        # up the right edge line
+    ('follow', 5, 'left'),   # N = 2 loading-area stubs + bays up to the chosen one
+    ('turn', 'left'),        # into the bay
+    ('toEnd',),
+    ('pickup',),              # "pickup"
+    ('spin', 'left'),        # 180°
+    ('follow', 1, 'both'),   # back out to the edge line (a T, so both sides)
+    ('turn', 'right'),       # down the edge line
+    ('follow', 6, 'right'),  # M = bays below the chosen one + 1 (loading area 4)
+    ('turn', 'right'),       # into loading area 4
+    ('toEnd',),
+    ('unload',),          # "unload"
+    ('spin', 'right'),
+    ('follow', 1, 'both'),   # back to the edge line
+    ('turn', 'right'),       # down again
+    ('follow', 2, 'right'),  # past loading area 3, then the corner
+    ('turn', 'right'),       # onto the front line, heading left
+    ('follow', 1, 'right'),  # the centre line meeting the front line at the box
+    ('drive', 400, 40),      # into the box
+]
 PERFORM = [
     ('follow', 1, 'left'),    # 1  start box -> east along the front line to the bottom-right corner
     ('turn', 'left'),         # 2  north up the right edge line

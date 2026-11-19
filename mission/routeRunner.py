@@ -1,17 +1,19 @@
 from utime import ticks_diff
 
 class Runner:
-    def __init__(self, route, follower, detector, turn, lineEndMs):
+    def __init__(self, route, follower, detector, turn, lineEndMs, packageHandler=None):
         self.route = route
         self.follower = follower
         self.detector = detector
         self.turn = turn
+        self.packageHandler = packageHandler
         self.lineEndMs = lineEndMs
         self.stepIndex = 0
         self.stepStart = None
         self.junctionCount = 0
         self.lostSince = None
         self.finished = False
+        self.packageCommand = None
 
     def start(self, now):
         self._beginStep(now)
@@ -29,6 +31,11 @@ class Runner:
             self.turn.start(step[1], now, 'spin')
         if step[0] == 'pivot':
             self.turn.start(step[1], now, 'pivot')
+        if step[0] == 'pickup' or step[0] == 'unload':
+            if self.packageHandler is None:
+                raise RuntimeError('pickup and unload steps require a package handler')
+            self.packageHandler.start(step[0], now)
+
 
     def _nextStep(self, now):
         self.stepIndex += 1
@@ -40,8 +47,10 @@ class Runner:
     def update(self, ol, il, ir, orr, now):
 
         if self.finished:
+            self.packageCommand = None
             return (0,0)
 
+        self.packageCommand = None
         step = self.route[self.stepIndex]
 
         if step[0] == 'follow':
@@ -87,6 +96,14 @@ class Runner:
                 self._nextStep(now)
                 return (0,0)
             return (step[2], step[2])
+
+        if step[0] == 'pickup' or step[0] == 'unload':
+            status, self.packageCommand = self.packageHandler.update(now)
+            if status == 'done':
+                self._nextStep(now)
+            elif status != 'running':
+                raise RuntimeError('package handler is not active for the current route step')
+            return (0, 0)
 
         self.finished = True
         return (0,0)
