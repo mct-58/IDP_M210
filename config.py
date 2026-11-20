@@ -82,10 +82,10 @@ BLOCK_CONFIRM_READINGS = 3    # consecutive readings below BLOCK_DETECT_MM to co
 
 
 # ----------------------------------------------------- GRIPPER & LIFT -------
-GRIP_MIN_ANGLE = None         # TODO: safe limits, found by moving slowly to each stop
-GRIP_MAX_ANGLE = None         # TODO
-GRIP_OPEN_ANGLE = None        # TODO
-GRIP_CLOSED_ANGLE = None      # TODO
+GRIP_MIN_ANGLE = 30         # TODO: safe limits, found by moving slowly to each stop
+GRIP_MAX_ANGLE = 240         # TODO
+GRIP_OPEN_ANGLE = 180        # TODO
+GRIP_CLOSED_ANGLE = 100      # TODO
 
 LIFT_MIN_ANGLE = 30
 LIFT_MAX_ANGLE = 230

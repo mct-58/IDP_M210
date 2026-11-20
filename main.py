@@ -3,8 +3,8 @@ from hardware.motorClass import Motor
 from hardware.driveTrainClass import DriveTrain
 from hardware.lineSensorsClass import LineSensors
 from hardware.servoClass import Servo
-from Hardware.gripperClass import Grip
-from Hardware.lifterClass import Lift
+from hardware.gripperClass import Grip
+from hardware.lifterClass import Lift
 from behaviour.lineFollow import LineFollower
 from behaviour.junctionDetector import JunctionDetector
 from behaviour.turn import Turn
@@ -27,6 +27,9 @@ liftServo = Servo(config.LIFT_SERVO_PIN, config.LIFT_MIN_ANGLE, config.LIFT_MAX_
 gripper = Grip(gripServo, config.GRIP_CLOSED_ANGLE, config.GRIP_OPEN_ANGLE)
 lifter = Lift(liftServo, config.LIFT_UP_ANGLE, config.LIFT_DOWN_ANGLE)
 packageHandler = PackageHandler(config.GRIP_MOVE_MS, config.LIFT_MOVE_MS)
+
+gripper.release()
+lifter.lower()
 
 route = getattr(routes, config.ROUTE_NAME)
 runner = Runner(route, lineFollower, junctionDetector, turn, config.LINE_END_MS, packageHandler)
