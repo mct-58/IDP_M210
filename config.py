@@ -100,4 +100,4 @@ LIFT_MOVE_MS = 800            # TODO: time for the lift to finish moving
 BAY_SPACING_MS = None         # TODO: timed drive from one bay junction to the next
 LOOP_PERIOD_MS = 10
 RUN_TIME_MS = 120000          # backstop: stop if a run lasts longer than this
-ROUTE_NAME = 'GRAB_TEST'
+ROUTE_NAME = 'GRAB'
