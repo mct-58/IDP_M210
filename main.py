@@ -57,10 +57,17 @@ while True:
 try:
     runStart = ticks_ms()
     runner.start(runStart)
+    flasher.start(runStart)
     lastStep = -1
     lastCount = -1
     while True:
         loopStart = ticks_ms()
+
+        flasher.update(loopStart)
+
+        if buttonPress.update(startButton.read(), loopStart):
+            break
+
         ol, il, ir, orr = lineSensors.read()
         left, right = runner.update(ol, il, ir, orr, loopStart)
         if runner.packageCommand == 'grip':
@@ -94,4 +101,5 @@ try:
             sleep_ms(config.LOOP_PERIOD_MS - elapsed)
 
 finally:
+    flasher.stop()
     driveTrain.stop()
