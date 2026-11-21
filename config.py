@@ -89,8 +89,8 @@ GRIP_CLOSED_ANGLE = 100      # TODO
 
 LIFT_MIN_ANGLE = 30
 LIFT_MAX_ANGLE = 230
-LIFT_UP_ANGLE = None          # TODO (carrying height: block <= 30 mm off the ground)
-LIFT_DOWN_ANGLE = None        # TODO
+LIFT_UP_ANGLE = 150          # TODO (carrying height: block <= 30 mm off the ground)
+LIFT_DOWN_ANGLE = 20        # TODO
 
 GRIP_MOVE_MS = 600            # TODO: time for the gripper to finish moving
 LIFT_MOVE_MS = 800            # TODO: time for the lift to finish moving
