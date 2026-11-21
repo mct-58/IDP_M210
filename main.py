@@ -1,4 +1,3 @@
-from behaviour import buttonPress
 import config
 from hardware.motorClass import Motor
 from hardware.driveTrainClass import DriveTrain
@@ -48,11 +47,12 @@ route = getattr(routes, config.ROUTE_NAME)
 runner = Runner(route, lineFollower, junctionDetector, turn, config.LINE_END_MS, packageHandler)
 
 while True:
-    now = ticks_ms
+    now = ticks_ms()
     raw = startButton.read()
     possiblePress = buttonPress.update(raw, now)
     if possiblePress:
-        return False
+        break
+    sleep_ms(10)
     
 try:
     runStart = ticks_ms()
