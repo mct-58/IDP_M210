@@ -1,7 +1,7 @@
 from utime import ticks_diff
 
 class Flasher:
-    def __innit__(self, period):
+    def __init__(self, period):
         self.period = period
         self.active = False
         self.flashingStartTime = None
@@ -18,7 +18,4 @@ class Flasher:
     def update(self, now):
         if not self.active:
             return False
-        if (ticks_diff(now, self.flashingStartTime) % self.period) <= (self.period/2):
-            return True
-        else:
-            return False
+        return (ticks_diff(now, self.flashingStartTime) % self.period) < (self.period/2)

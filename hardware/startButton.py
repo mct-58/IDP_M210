@@ -9,7 +9,5 @@ class Button:
         self.onValue = onValue
 
     def read(self):
-        if self.pin.value() == self.onValue:
-            return True
-        else:
-            return False
+        return self.pin.value() == self.onValue
+            
