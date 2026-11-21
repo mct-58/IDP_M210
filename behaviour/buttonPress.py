@@ -12,8 +12,9 @@ class ButtonPress:
             self.possibleChangeStart = now
             self.prevRaw = raw
             return False
-        if raw == self.prevRaw and (ticks_diff(now, self.possibleChangeStart) <= self.debounceTime):
+        if ticks_diff(now, self.possibleChangeStart) <= self.debounceTime:
             return False
         if ticks_diff(now, self.possibleChangeStart) > self.debounceTime and (raw != self.acceptedState):
             self.acceptedState = raw
-            return True
+            return self.acceptedState
+        return False
