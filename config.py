@@ -63,7 +63,7 @@ LINE_END_MS = 100             # both inner sensors off this long = end of line
 
 # -------------------------------------------------- START BUTTON & LEDS -----
 BUTTON_PRESSED_VALUE = 1      # pin value when pressed (1 = wired to 3.3 V)
-BUTTON_DEBOUNCE_MS = 200
+BUTTON_DEBOUNCE_MS = 30
 LED_ON_VALUE = 1              # pin value that lights an LED through the opto (TODO: check wiring)
 AMBER_FLASH_PERIOD_MS = 500   # one full on+off cycle while moving
 
