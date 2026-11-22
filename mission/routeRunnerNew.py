@@ -1,7 +1,7 @@
 from utime import ticks_diff
 
 class Runner:
-    def __init__(self, route, follower, detector, turn, lineEndMs, entranceDetector, grippingDetector, approachSpeedFrac=0.75, checkWindowMs=200, packageHandler=None):
+    def __init__(self, route, follower, detector, turn, lineEndMs, packageHandler, entranceDetector, grippingDetector, approachSpeedFrac=0.5, checkWindowMs=200):
         self.route = route
         self.follower = follower
         self.detector = detector
@@ -115,7 +115,31 @@ class Runner:
             return (0, 0)
 
         if step[0] == 'check':
-            
+            block = self.entranceDetector.update(newReading, distance)
+            if block:
+                self.blockOutcome = 'block'
+                self._nextStep(now)
+                return (0,0)
+            if ticks_diff(now, self.stepStart) >= self.checkWindowMs:
+                self.blockOutcome = 'empty'
+                self._nextStep(now)
+                return (0,0)
+            return (0,0)
+
+        if step[0] == 'approach':
+            block = self.grippingDetector.update(newReading, distance)
+            if block:
+                self.blockOutcome = 'block'
+                self._nextStep(now)
+                return (0,0)
+            if il or ir:
+                self.lostSince = None
+                return self.approachSpeedFrac * self.follower.update(il, ir)
+            if self.lostSince is None:
+                self.lostSince = now
+            if ticks_diff(now, self.lostSince) >= self.lineEndMs:
+                self._nextStep(now)
+            return (0,0)
 
         self.finished = True
         return (0,0)
