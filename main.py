@@ -104,3 +104,5 @@ try:
 finally:
     driveTrain.stop()
     flashingLed.off()
+    redLed.off()
+    greenLed.off()
