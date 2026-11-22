@@ -1,7 +1,7 @@
 from utime import ticks_diff
 
 class Runner:
-    def __init__(self, route, follower, detector, turn, lineEndMs, packageHandler=None, entranceDetector=None, grippingDetector=None, approachSpeedFrac=0.75, checkWindow=200):
+    def __init__(self, route, follower, detector, turn, lineEndMs, packageHandler=None, entranceDetector=None, grippingDetector=None, approachSpeedFrac=0.75, checkWindowMs=200):
         self.route = route
         self.follower = follower
         self.detector = detector
@@ -16,8 +16,8 @@ class Runner:
         self.lostSince = None
         self.finished = False
         self.packageCommand = None
-        self.tofPhase = None
         self.blockOutcome = None
+        self.checkWindowMs = checkWindowMs
 
     def start(self, now):
         self._beginStep(now)
@@ -30,7 +30,6 @@ class Runner:
         self.detector.reset()
         self.entranceDetector.reset()
         self.grippingDetector.reset()
-        self.tofPhase = 'check'
         self.blockOutcome = None
         step = self.route[self.stepIndex]
         if step[0] == 'turn':
@@ -51,7 +50,7 @@ class Runner:
         else:
             self._beginStep(now)
 
-    def update(self, ol, il, ir, orr, newReading=False, distance=None, now):
+    def update(self, ol, il, ir, orr, now, newReading=False, distance=None):
 
         if self.finished:
             self.packageCommand = None
@@ -112,7 +111,8 @@ class Runner:
                 raise RuntimeError('package handler is not active for the current route step')
             return (0, 0)
 
-        if step[0] == 'check'
+        if step[0] == 'check':
+            
 
         self.finished = True
         return (0,0)
