@@ -1,7 +1,9 @@
+from turtle import back
+
 from utime import ticks_diff
 
 class Runner:
-    def __init__(self, route, follower, detector, turn, lineEndMs, packageHandler, entranceDetector, grippingDetector, approachSpeedFrac=0.5, checkWindowMs=200):
+    def __init__(self, route, follower, detector, turn, lineEndMs, packageHandler, entranceDetector, grippingDetector, backDetector, reverseTimeout, approachSpeedFrac=0.5, checkWindowMs=200):
         self.route = route
         self.follower = follower
         self.detector = detector
@@ -9,6 +11,7 @@ class Runner:
         self.packageHandler = packageHandler
         self.entranceDetector = entranceDetector
         self.grippingDetector = grippingDetector
+        self.backDetector = backDetector
         self.lineEndMs = lineEndMs
         self.stepIndex = 0
         self.stepStart = None
@@ -16,9 +19,10 @@ class Runner:
         self.lostSince = None
         self.finished = False
         self.packageCommand = None
-        self.blockOutcome = None
+        self.objectOutcome = None
         self.checkWindowMs = checkWindowMs
         self.approachSpeedFrac = approachSpeedFrac
+        self.reverseTimeout = reverseTimeout
 
     def start(self, now):
         self._beginStep(now)
@@ -31,6 +35,7 @@ class Runner:
         self.detector.reset()
         self.entranceDetector.reset()
         self.grippingDetector.reset()
+        self.backDetector.reset()
     
         step = self.route[self.stepIndex]
         if step[0] == 'turn':
@@ -44,7 +49,10 @@ class Runner:
                 raise RuntimeError('pickup and unload steps require a package handler')
             self.packageHandler.start(step[0], now)
         if step[0] == 'check' or (step[0] == 'approach'):
-            self.blockOutcome = None
+            self.objectOutcome = None
+        if step[0] == 'reverseTo':
+            self.backDetector.setDist(step[1])
+            self.objectOutcome = None
 
     def _nextStep(self, now):
         self.stepIndex += 1
@@ -53,7 +61,7 @@ class Runner:
         else:
             self._beginStep(now)
 
-    def update(self, ol, il, ir, orr, now, newReading=False, distance=None):
+    def update(self, ol, il, ir, orr, now, frontNew=False, frontDistance=None, backNew=False, backDistance=None):
 
         if self.finished:
             self.packageCommand = None
@@ -115,21 +123,21 @@ class Runner:
             return (0, 0)
 
         if step[0] == 'check':
-            block = self.entranceDetector.update(newReading, distance)
+            block = self.entranceDetector.update(frontNew, frontDistance)
             if block:
-                self.blockOutcome = 'block'
+                self.objectOutcome = 'block'
                 self._nextStep(now)
                 return (0,0)
             if ticks_diff(now, self.stepStart) >= self.checkWindowMs:
-                self.blockOutcome = 'empty'
+                self.objectOutcome = 'empty'
                 self._nextStep(now)
                 return (0,0)
             return (0,0)
 
         if step[0] == 'approach':
-            block = self.grippingDetector.update(newReading, distance)
+            block = self.grippingDetector.update(frontNew, frontDistance)
             if block:
-                self.blockOutcome = 'block'
+                self.objectOutcome = 'block'
                 self._nextStep(now)
                 return (0,0)
             if il or ir:
@@ -139,9 +147,20 @@ class Runner:
             if self.lostSince is None:
                 self.lostSince = now
             if ticks_diff(now, self.lostSince) >= self.lineEndMs:
-                self.blockOutcome = 'empty'
+                self.objectOutcome = 'empty'
                 self._nextStep(now)
             return (0,0)
+
+        if step[0] == 'reverseTo':
+            wall = self.grippingDetector.update(frontNew, frontDistance)
+            if wall:
+                self.objectOutcome = 'block'
+                self._nextStep(now)
+                return (0,0)
+            if ticks_diff(now, self.stepStart) >= self.reverseTimeout:
+                self._nextStep(now)
+                return (0,0)
+            return (step[2], step[2])
 
         self.finished = True
         return (0,0)

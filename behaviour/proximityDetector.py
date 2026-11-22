@@ -16,3 +16,6 @@ class BlockDetector:
             else:
                 self.currentNumConsecReadings = 0
         return(self.currentNumConsecReadings >= self.numConsecReadings)
+
+    def setDist(self, detectionDistance):
+        self.detectionDistance = detectionDistance
