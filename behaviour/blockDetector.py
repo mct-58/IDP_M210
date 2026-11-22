@@ -9,11 +9,12 @@ class BlockDetector:
 
     def update(self, isNew, distance):
         if not isNew:
-            return False
+            pass
+        if distance is None:
+            self.currentNumConsecReadings = 0
         if distance <= self.detectionDistance:
             self.currentNumConsecReadings += 1
         if distance > self.detectionDistance:
             self.currentNumConsecReadings = 0
-            return False
-        if self.currentNumConsecReadings == self.numConsecReadings:
+        if self.currentNumConsecReadings >= self.numConsecReadings:
             return True
