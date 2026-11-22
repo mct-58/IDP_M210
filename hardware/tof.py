@@ -25,11 +25,11 @@ class ToF:
         if not ready:
             return False
         reading = self.vl53l0x.read()
-        if reading > outOfRangeNum:
+        if reading >= outOfRangeNum:
             self.latestReading = None
             return True
         if reading < outOfRangeNum:
-            adjReading = reading - offset
+            adjReading = reading - self.offset
             if adjReading < 0:
                 adjReading = 0
             self.latestReading = adjReading
