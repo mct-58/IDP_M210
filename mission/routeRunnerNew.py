@@ -1,7 +1,7 @@
 from utime import ticks_diff
 
 class Runner:
-    def __init__(self, route, follower, detector, turn, lineEndMs, packageHandler=None, entranceDetector=None, grippingDetector=None, approachSpeedFrac=0.75, checkWindowMs=200):
+    def __init__(self, route, follower, detector, turn, lineEndMs, entranceDetector, grippingDetector, approachSpeedFrac=0.75, checkWindowMs=200, packageHandler=None):
         self.route = route
         self.follower = follower
         self.detector = detector
@@ -18,6 +18,7 @@ class Runner:
         self.packageCommand = None
         self.blockOutcome = None
         self.checkWindowMs = checkWindowMs
+        self.approachSpeedFrac = approachSpeedFrac
 
     def start(self, now):
         self._beginStep(now)
@@ -30,7 +31,7 @@ class Runner:
         self.detector.reset()
         self.entranceDetector.reset()
         self.grippingDetector.reset()
-        self.blockOutcome = None
+    
         step = self.route[self.stepIndex]
         if step[0] == 'turn':
             self.turn.start(step[1], now, 'junction')
@@ -42,6 +43,8 @@ class Runner:
             if self.packageHandler is None:
                 raise RuntimeError('pickup and unload steps require a package handler')
             self.packageHandler.start(step[0], now)
+        if step[0] == 'check' or (step[0] == 'approach'):
+            self.blockOutcome = None
 
     def _nextStep(self, now):
         self.stepIndex += 1
