@@ -23,8 +23,14 @@ class ToF:
         status = self.vl53l0x._register(statusRegisterNum)
         ready = mask & status
         if not ready:
-            return None
+            return False
         reading = self.vl53l0x.read()
         if reading > outOfRangeNum:
-            reading = None
-        self.latestReading = reading
+            self.latestReading = None
+            return True
+        if reading < outOfRangeNum:
+            adjReading = reading - offset
+            if adjReading < 0:
+                adjReading = 0
+            self.latestReading = adjReading
+            return True
