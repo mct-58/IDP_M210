@@ -1,11 +1,11 @@
 from utime import sleep_ms
 import config
 import Hardware.servoClass as sc
-from behaviour.grip import Grip
+import Hardware.gripperClass as gp
 
-SERVO_PIN = 13
-GRIP_ANGLE = config.LIFT_MAX_ANGLE
-RELEASE_ANGLE = config.LIFT_MIN_ANGLE
+SERVO_PIN = 15
+GRIP_ANGLE = 73
+RELEASE_ANGLE = 53
 HOLD_MS = 1500
 CYCLES = 3
 
@@ -17,7 +17,7 @@ print("Servo test")
 servo = sc.Servo(SERVO_PIN, config.LIFT_MIN_ANGLE, config.LIFT_MAX_ANGLE)
 
 
-gripper = Grip(servo, GRIP_ANGLE, RELEASE_ANGLE)
+gripper = gp.Grip(servo, GRIP_ANGLE, RELEASE_ANGLE)
 
 print("Objects made")
 

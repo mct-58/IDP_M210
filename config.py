@@ -6,14 +6,14 @@ RIGHT_MOTOR_DIR_PIN = 7
 RIGHT_MOTOR_PWM_PIN = 6
 
 # Line sensors, left to right across the front
-LINE_OUTER_LEFT_PIN = 18
-LINE_INNER_LEFT_PIN = 19
+LINE_OUTER_LEFT_PIN = 16
+LINE_INNER_LEFT_PIN = 18
 LINE_INNER_RIGHT_PIN = 20
-LINE_OUTER_RIGHT_PIN = 21
+LINE_OUTER_RIGHT_PIN = 22
 
 # Servos (PicoBot servo connectors: J35 = GP13, J36 = GP15)
-GRIP_SERVO_PIN = 13           # TODO: confirm which servo is on which connector
-LIFT_SERVO_PIN = 15           # TODO
+GRIP_SERVO_PIN = 15           # TODO: confirm which servo is on which connector
+LIFT_SERVO_PIN = 13           # TODO
 
 # Distance sensors - one per I2C bus (both use address 0x29)
 TOF_FRONT_BUS = 0
@@ -38,7 +38,7 @@ IR_RECEIVER_PIN = None        # TODO (top-deck stretch goal)
 
 # ------------------------------------------------------- MOTORS & DRIVING ---
 MOTOR_PWM_FREQ_HZ = 1000
-LEFT_MOTOR_REVERSED = False
+LEFT_MOTOR_REVERSED = True
 RIGHT_MOTOR_REVERSED = True
 LEFT_MOTOR_MIN_SPEED = 25     # deadband: lowest speed % that reliably turns the wheel
 RIGHT_MOTOR_MIN_SPEED = 25
@@ -84,10 +84,10 @@ BLOCK_CONFIRM_READINGS = 3    # consecutive readings below BLOCK_DETECT_MM to co
 
 
 # ----------------------------------------------------- GRIPPER & LIFT -------
-GRIP_MIN_ANGLE = 30         # TODO: safe limits, found by moving slowly to each stop
-GRIP_MAX_ANGLE = 240         # TODO
-GRIP_OPEN_ANGLE = 180        # TODO
-GRIP_CLOSED_ANGLE = 100      # TODO
+GRIP_MIN_ANGLE = 40         # TODO: safe limits, found by moving slowly to each stop
+GRIP_MAX_ANGLE = 75         # TODO
+GRIP_OPEN_ANGLE = 53        # TODO
+GRIP_CLOSED_ANGLE = 73      # TODO
 
 LIFT_MIN_ANGLE = 30
 LIFT_MAX_ANGLE = 230
