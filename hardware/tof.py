@@ -1,11 +1,12 @@
 from machine import Pin, I2C
 from hardware.VL53L0X.VL53L0X import VL53L0X
 
-class ToF:
-    mask = 0x07
-    statusRegisterNum = 0x13
-    outOfRangeNum = 8000
+mask = 0x07
+statusRegisterNum = 0x13
+outOfRangeNum = 8000
 
+
+class ToF:
     def __init__(self, busNum, sdaPinNum, sclPinNum, offset):
         self.offset = offset
         self.busNum = busNum
@@ -25,5 +26,5 @@ class ToF:
             return None
         reading = self.vl53l0x.read()
         if reading > outOfRangeNum:
-            self.latestReading = None
-        self.latestReading = reading - self.offset
+            reading = None
+        self.latestReading = reading
