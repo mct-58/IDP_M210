@@ -60,7 +60,7 @@ TURN_MIN_MS = 750             # 90 deg turns/pivots: ignore line sensors this lo
 SPIN_MIN_MS = 1900            # 180 deg spins: ignore line sensors this long
 TURN_TIMEOUT_MS = 5000        # give up on any turn after this long
 LINE_END_MS = 100             # both inner sensors off this long = end of line
-REVERSE_TIMEOUT_MS = 5000
+REVERSE_TIMEOUT_MS = 1500
 
 
 # -------------------------------------------------- START BUTTON & LEDS -----

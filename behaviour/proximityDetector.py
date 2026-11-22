@@ -1,4 +1,4 @@
-class BlockDetector:
+class ProximityDetector:
     def __init__(self, detectionDistance, numConsecReadings):
         self.detectionDistance = detectionDistance
         self.numConsecReadings = numConsecReadings

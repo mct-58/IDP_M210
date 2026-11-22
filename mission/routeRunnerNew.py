@@ -1,9 +1,7 @@
-from turtle import back
-
 from utime import ticks_diff
 
 class Runner:
-    def __init__(self, route, follower, detector, turn, lineEndMs, packageHandler, entranceDetector, grippingDetector, backDetector, reverseTimeout, approachSpeedFrac=0.5, checkWindowMs=200):
+    def __init__(self, route, follower, detector, turn, lineEndMs, packageHandler, entranceDetector, grippingDetector, backDetector, reverseTimeoutMs, approachSpeedFrac=0.5, checkWindowMs=200):
         self.route = route
         self.follower = follower
         self.detector = detector
@@ -22,7 +20,7 @@ class Runner:
         self.objectOutcome = None
         self.checkWindowMs = checkWindowMs
         self.approachSpeedFrac = approachSpeedFrac
-        self.reverseTimeout = reverseTimeout
+        self.reverseTimeoutMs = reverseTimeoutMs
 
     def start(self, now):
         self._beginStep(now)
@@ -52,7 +50,6 @@ class Runner:
             self.objectOutcome = None
         if step[0] == 'reverseTo':
             self.backDetector.setDist(step[1])
-            self.objectOutcome = None
 
     def _nextStep(self, now):
         self.stepIndex += 1
@@ -152,9 +149,8 @@ class Runner:
             return (0,0)
 
         if step[0] == 'reverseTo':
-            wall = self.grippingDetector.update(frontNew, frontDistance)
+            wall = self.backDetectorDetector.update(backNew, backDistance)
             if wall:
-                self.objectOutcome = 'block'
                 self._nextStep(now)
                 return (0,0)
             if ticks_diff(now, self.stepStart) >= self.reverseTimeout:
