@@ -1,7 +1,11 @@
 from machine import Pin, I2C
 from hardware.VL53L0X.VL53L0X import VL53L0X
 
-class tof:
+class ToF:
+    mask = 0x07
+    statusRegisterNum = 0x13
+    outOfRangeNum = 8000
+
     def __init__(self, busNum, sdaPinNum, sclPinNum, offset):
         self.offset = offset
         self.busNum = busNum
@@ -9,17 +13,17 @@ class tof:
         self.sclPin = Pin(sclPinNum)
         self.i2cBus = I2C(id=self.busNum, sda=self.sdaPin, scl=self.sclPin)
         self.vl53l0x = VL53L0X(self.i2cBus)
-        self.vl53l0.set_Vcsel_pulse_period(vl53l0.vcsel_period_type[0], 18)
-        self.vl53l0.set_Vcsel_pulse_period(vl53l0.vcsel_period_type[1], 14)
+        self.vl53l0x.set_Vcsel_pulse_period(self.vl53l0x.vcsel_period_type[0], 18)
+        self.vl53l0x.set_Vcsel_pulse_period(self.vl53l0x.vcsel_period_type[1], 14)
         self.vl53l0x.start()
+        self.latestReading = None
 
     def update(self):
-        mask = 0x07
-        info = self.vl53l0x._register(0x13)
-        value = mask & info
-        if not value:
+        status = self.vl53l0x._register(statusRegisterNum)
+        ready = mask & status
+        if not ready:
             return None
         reading = self.vl53l0x.read()
-        if reading > 8000:
-            return None
-        return reading - self.offset
+        if reading > outOfRangeNum:
+            self.latestReading = None
+        self.latestReading = reading - self.offset
