@@ -149,11 +149,11 @@ class Runner:
             return (0,0)
 
         if step[0] == 'reverseTo':
-            wall = self.backDetectorDetector.update(backNew, backDistance)
+            wall = self.backDetector.update(backNew, backDistance)
             if wall:
                 self._nextStep(now)
                 return (0,0)
-            if ticks_diff(now, self.stepStart) >= self.reverseTimeout:
+            if ticks_diff(now, self.stepStart) >= self.reverseTimeoutMs:
                 self._nextStep(now)
                 return (0,0)
             return (step[2], step[2])
