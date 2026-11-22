@@ -11,9 +11,10 @@ class BlockDetector:
         if isNew:
             if distance is None:
                 self.currentNumConsecReadings = 0
-            if distance <= self.detectionDistance:
+                pass
+            elif distance <= self.detectionDistance:
                 self.currentNumConsecReadings += 1
-            if distance > self.detectionDistance:
+            elif distance > self.detectionDistance:
                 self.currentNumConsecReadings = 0
         if self.currentNumConsecReadings >= self.numConsecReadings:
             return True
