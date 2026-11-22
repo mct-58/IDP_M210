@@ -134,10 +134,12 @@ class Runner:
                 return (0,0)
             if il or ir:
                 self.lostSince = None
-                return self.approachSpeedFrac * self.follower.update(il, ir)
+                templ, tempr = self.follower.update(il, ir)
+                return (templ * self.approachSpeedFrac, tempr * self.approachSpeedFrac)
             if self.lostSince is None:
                 self.lostSince = now
             if ticks_diff(now, self.lostSince) >= self.lineEndMs:
+                self.blockOutcome = 'empty'
                 self._nextStep(now)
             return (0,0)
 
