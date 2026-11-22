@@ -52,7 +52,7 @@ while True:
     possiblePress = buttonPress.update(raw, now)
     if possiblePress:
         break
-    sleep_ms(10)
+    sleep_ms(config.LOOP_PERIOD_MS)
     
 try:
     runStart = ticks_ms()
@@ -63,7 +63,8 @@ try:
     while True:
         loopStart = ticks_ms()
 
-        flasher.update(loopStart)
+        flash = flasher.update(loopStart)
+        flashingLed.set(flash)
 
         if buttonPress.update(startButton.read(), loopStart):
             break
@@ -101,5 +102,5 @@ try:
             sleep_ms(config.LOOP_PERIOD_MS - elapsed)
 
 finally:
-    flasher.stop()
     driveTrain.stop()
+    flashingLed.off()
