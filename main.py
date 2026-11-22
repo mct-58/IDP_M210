@@ -2,18 +2,24 @@ import config
 from hardware.motorClass import Motor
 from hardware.driveTrainClass import DriveTrain
 from hardware.lineSensorsClass import LineSensors
-import Hardware.servoClass as sc
-from Hardware.gripperClass import Grip
-from Hardware.lifterClass import Lift
+from hardware.servoClass import Servo
+from hardware.gripperClass import Grip
+from hardware.lifterClass import Lift
+from hardware.ledClass import LED
+from hardware.startButton import Button
 from behaviour.lineFollow import LineFollower
 from behaviour.junctionDetector import JunctionDetector
 from behaviour.turn import Turn
 from behaviour.packageHandler import PackageHandler
+from behaviour.flasher import Flasher
+from behaviour.buttonPress import ButtonPress
 from mission.routeRunner import Runner
 from mission import routes
 from utime import ticks_ms, ticks_diff, sleep_ms
 
 
+powerLed = LED(config.POWER_AMBER_LED_PIN, config.LED_ON_VALUE)
+powerLed.on()
 
 leftMotor = Motor(config.LEFT_MOTOR_DIR_PIN, config.LEFT_MOTOR_PWM_PIN, config.MOTOR_PWM_FREQ_HZ, config.LEFT_MOTOR_REVERSED, config.LEFT_MOTOR_MIN_SPEED)
 rightMotor = Motor(config.RIGHT_MOTOR_DIR_PIN, config.RIGHT_MOTOR_PWM_PIN, config.MOTOR_PWM_FREQ_HZ, config.RIGHT_MOTOR_REVERSED, config.RIGHT_MOTOR_MIN_SPEED)
@@ -27,6 +33,12 @@ liftServo = sc.Servo(config.LIFT_SERVO_PIN, config.LIFT_MIN_ANGLE, config.LIFT_M
 gripper = Grip(gripServo, config.GRIP_CLOSED_ANGLE, config.GRIP_OPEN_ANGLE)
 lifter = Lift(liftServo, config.LIFT_UP_ANGLE, config.LIFT_DOWN_ANGLE)
 packageHandler = PackageHandler(config.GRIP_MOVE_MS, config.LIFT_MOVE_MS)
+flashingLed = LED(config.FLASHING_AMBER_LED_PIN, config.LED_ON_VALUE)
+redLed = LED(config.RED_LED_PIN, config.LED_ON_VALUE)
+greenLed = LED(config.GREEN_LED_PIN, config.LED_ON_VALUE)
+flasher = Flasher(config.AMBER_FLASH_PERIOD_MS)
+buttonPress = ButtonPress(config.BUTTON_DEBOUNCE_MS)
+startButton = Button(config.START_BUTTON_PIN, config.BUTTON_PRESSED_VALUE)
 
 gripper.release()
 lifter.lower()
@@ -34,16 +46,29 @@ lifter.lower()
 route = getattr(routes, config.ROUTE_NAME)
 runner = Runner(route, lineFollower, junctionDetector, turn, config.LINE_END_MS, packageHandler)
 
-print('Hello World!, Team M210 is the bestest team ever and will win the IDP')
-sleep_ms(3000)
-
+while True:
+    now = ticks_ms()
+    raw = startButton.read()
+    possiblePress = buttonPress.update(raw, now)
+    if possiblePress:
+        break
+    sleep_ms(config.LOOP_PERIOD_MS)
+    
 try:
     runStart = ticks_ms()
     runner.start(runStart)
+    flasher.start(runStart)
     lastStep = -1
     lastCount = -1
     while True:
         loopStart = ticks_ms()
+
+        flash = flasher.update(loopStart)
+        flashingLed.set(flash)
+
+        if buttonPress.update(startButton.read(), loopStart):
+            break
+
         ol, il, ir, orr = lineSensors.read()
         left, right = runner.update(ol, il, ir, orr, loopStart)
         if runner.packageCommand == 'grip':
@@ -78,4 +103,6 @@ try:
 
 finally:
     driveTrain.stop()
-    print('Whoopsies, it seems the robot has taken a quick pit stop! ')
+    flashingLed.off()
+    redLed.off()
+    greenLed.off()

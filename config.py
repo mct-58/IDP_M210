@@ -28,7 +28,8 @@ MAGNET_PIN = 26
 
 # Start button, LEDs (via opto-isolator), IR receiver
 START_BUTTON_PIN = None       # TODO
-AMBER_LED_PIN = None          # TODO
+POWER_AMBER_LED_PIN = None          # TODO
+FLASHING_AMBER_LED_PIN = None 
 RED_LED_PIN = None            # TODO
 GREEN_LED_PIN = None          # TODO
 STATUS_LED_PIN = "LED"        # Pico's onboard LED
@@ -59,11 +60,12 @@ TURN_MIN_MS = 750             # 90 deg turns/pivots: ignore line sensors this lo
 SPIN_MIN_MS = 1900            # 180 deg spins: ignore line sensors this long
 TURN_TIMEOUT_MS = 5000        # give up on any turn after this long
 LINE_END_MS = 100             # both inner sensors off this long = end of line
+REVERSE_TIMEOUT_MS = 5000
 
 
 # -------------------------------------------------- START BUTTON & LEDS -----
 BUTTON_PRESSED_VALUE = 1      # pin value when pressed (1 = wired to 3.3 V)
-BUTTON_DEBOUNCE_MS = 200
+BUTTON_DEBOUNCE_MS = 30
 LED_ON_VALUE = 1              # pin value that lights an LED through the opto (TODO: check wiring)
 AMBER_FLASH_PERIOD_MS = 500   # one full on+off cycle while moving
 
@@ -89,8 +91,8 @@ GRIP_CLOSED_ANGLE = 73      # TODO
 
 LIFT_MIN_ANGLE = 30
 LIFT_MAX_ANGLE = 230
-LIFT_UP_ANGLE = 40          # TODO (carrying height: block <= 30 mm off the ground)
-LIFT_DOWN_ANGLE = 100        # TODO
+LIFT_UP_ANGLE = 150          # TODO (carrying height: block <= 30 mm off the ground)
+LIFT_DOWN_ANGLE = 40       # TODO
 
 GRIP_MOVE_MS = 600            # TODO: time for the gripper to finish moving
 LIFT_MOVE_MS = 800            # TODO: time for the lift to finish moving
@@ -99,5 +101,5 @@ LIFT_MOVE_MS = 800            # TODO: time for the lift to finish moving
 # ------------------------------------------------------ MISSION & ROUTE -----
 BAY_SPACING_MS = None         # TODO: timed drive from one bay junction to the next
 LOOP_PERIOD_MS = 10
-RUN_TIME_MS = 120000          # backstop: stop if a run lasts longer than this
+RUN_TIME_MS = 350000          # backstop: stop if a run lasts longer than this
 ROUTE_NAME = 'GRAB'
