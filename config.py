@@ -28,10 +28,10 @@ MAGNET_PIN = 26
 
 # Start button, LEDs (via opto-isolator), IR receiver
 START_BUTTON_PIN = None       # TODO
-POWER_AMBER_LED_PIN = None          # TODO
-FLASHING_AMBER_LED_PIN = None 
-RED_LED_PIN = None            # TODO
-GREEN_LED_PIN = None          # TODO
+POWER_AMBER_LED_PIN = 2          # TODO
+FLASHING_AMBER_LED_PIN = 'LED' 
+RED_LED_PIN = 3            # TODO
+GREEN_LED_PIN = 27          # TODO
 STATUS_LED_PIN = "LED"        # Pico's onboard LED
 IR_RECEIVER_PIN = None        # TODO (top-deck stretch goal)
 

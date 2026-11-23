@@ -37,8 +37,8 @@ flashingLed = LED(config.FLASHING_AMBER_LED_PIN, config.LED_ON_VALUE)
 redLed = LED(config.RED_LED_PIN, config.LED_ON_VALUE)
 greenLed = LED(config.GREEN_LED_PIN, config.LED_ON_VALUE)
 flasher = Flasher(config.AMBER_FLASH_PERIOD_MS)
-buttonPress = ButtonPress(config.BUTTON_DEBOUNCE_MS)
-startButton = Button(config.START_BUTTON_PIN, config.BUTTON_PRESSED_VALUE)
+#buttonPress = ButtonPress(config.BUTTON_DEBOUNCE_MS)
+#startButton = Button(config.START_BUTTON_PIN, config.BUTTON_PRESSED_VALUE)
 
 gripper.release()
 lifter.lower()
@@ -46,6 +46,7 @@ lifter.lower()
 route = getattr(routes, config.ROUTE_NAME)
 runner = Runner(route, lineFollower, junctionDetector, turn, config.LINE_END_MS, packageHandler)
 
+'''
 while True:
     now = ticks_ms()
     raw = startButton.read()
@@ -53,7 +54,8 @@ while True:
     if possiblePress:
         break
     sleep_ms(config.LOOP_PERIOD_MS)
-    
+'''    
+
 try:
     runStart = ticks_ms()
     runner.start(runStart)
@@ -66,8 +68,8 @@ try:
         flash = flasher.update(loopStart)
         flashingLed.set(flash)
 
-        if buttonPress.update(startButton.read(), loopStart):
-            break
+        #if buttonPress.update(startButton.read(), loopStart):
+         #   break
 
         ol, il, ir, orr = lineSensors.read()
         left, right = runner.update(ol, il, ir, orr, loopStart)
