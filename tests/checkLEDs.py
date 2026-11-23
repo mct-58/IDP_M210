@@ -5,6 +5,7 @@
 # Part 2: flashing amber driven by Flasher for 6 s at AMBER_FLASH_PERIOD_MS.
 #         Count the flashes: 6 s at 500 ms = 12 flashes. Then it must go OFF.
 # Part 3: everything off except the power amber, which stays on (as in main).
+# Any LED whose pin is None in config is skipped.
 
 from utime import sleep_ms, ticks_ms, ticks_diff
 import config
@@ -18,19 +19,16 @@ leds = (("POWER amber", config.POWER_AMBER_LED_PIN),
         ("RED", config.RED_LED_PIN),
         ("GREEN", config.GREEN_LED_PIN))
 
+built = {}
 for name, pin in leds:
     if pin is None:
-        raise ValueError(name + " LED pin is None in config")
-
-powerLed = LED(config.POWER_AMBER_LED_PIN, config.LED_ON_VALUE)
-flashingLed = LED(config.FLASHING_AMBER_LED_PIN, config.LED_ON_VALUE)
-redLed = LED(config.RED_LED_PIN, config.LED_ON_VALUE)
-greenLed = LED(config.GREEN_LED_PIN, config.LED_ON_VALUE)
-allLeds = (powerLed, flashingLed, redLed, greenLed)
+        print("SKIPPING", name, "- pin is None in config")
+    else:
+        built[name] = LED(pin, config.LED_ON_VALUE)
 
 
 def allOff():
-    for led in allLeds:
+    for led in built.values():
         led.off()
 
 
@@ -41,13 +39,18 @@ def run():
     sleep_ms(2000)
 
     print("--- Part 1: one at a time ---")
-    for (name, pin), led in zip(leds, allLeds):
-        print(name, "ON  (pin", pin, ")")
-        led.on()
-        sleep_ms(2000)
-        led.off()
-        sleep_ms(500)
+    for name, pin in leds:
+        if name in built:
+            print(name, "ON  (pin", pin, ")")
+            built[name].on()
+            sleep_ms(2000)
+            built[name].off()
+            sleep_ms(500)
 
+    if "FLASHING amber" not in built:
+        print("No flashing amber pin - skipping Part 2")
+        return
+    flashingLed = built["FLASHING amber"]
     print("--- Part 2: flashing amber for", FLASH_TEST_MS // 1000, "s - count the flashes ---")
     flasher = Flasher(config.AMBER_FLASH_PERIOD_MS)
     start = ticks_ms()
@@ -60,8 +63,9 @@ def run():
     print("Expected", FLASH_TEST_MS // config.AMBER_FLASH_PERIOD_MS, "flashes. Flashing amber should now be OFF.")
     sleep_ms(2000)
 
-    print("--- Part 3: power amber ON, all others OFF ---")
-    powerLed.on()
+    if "POWER amber" in built:
+        print("--- Part 3: power amber ON, all others OFF ---")
+        built["POWER amber"].on()
     print("Done.")
 
 
