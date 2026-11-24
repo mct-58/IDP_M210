@@ -55,9 +55,9 @@ LOST_TURN_FRACTION = 0.2      # inner wheel fraction when both inner sensors los
 
 # ---------------------------------------------------- JUNCTIONS & TURNS -----
 JUNCTION_CONFIRM_MS = 70      # outer sensor must see a line this long to count
-JUNCTION_ADVANCE_MS = 830     # creep after a junction so the axle reaches it
+JUNCTION_ADVANCE_MS = 860     # creep after a junction so the axle reaches it
 TURN_MIN_MS = 750             # 90 deg turns/pivots: ignore line sensors this long
-SPIN_MIN_MS = 1900            # 180 deg spins: ignore line sensors this long
+SPIN_MIN_MS = 2200            # 180 deg spins: ignore line sensors this long
 TURN_TIMEOUT_MS = 5000        # give up on any turn after this long
 LINE_END_MS = 100             # both inner sensors off this long = end of line
 REVERSE_TIMEOUT_MS = 1500
@@ -85,21 +85,21 @@ BLOCK_CONFIRM_READINGS = 3    # consecutive readings below BLOCK_DETECT_MM to co
 
 # ----------------------------------------------------- GRIPPER & LIFT -------
 GRIP_MIN_ANGLE = 40         # TODO: safe limits, found by moving slowly to each stop
-GRIP_MAX_ANGLE = 75         # TODO
-GRIP_OPEN_ANGLE = 53        # TODO
-GRIP_CLOSED_ANGLE = 73      # TODO
+GRIP_MAX_ANGLE = 75        # TODO
+GRIP_OPEN_ANGLE = 60       # TODO
+GRIP_CLOSED_ANGLE = 82      # TODO
 
 LIFT_MIN_ANGLE = 30
 LIFT_MAX_ANGLE = 230
 LIFT_UP_ANGLE = 150          # TODO (carrying height: block <= 30 mm off the ground)
-LIFT_DOWN_ANGLE = 40       # TODO
+LIFT_DOWN_ANGLE = 40        # TODO
 
-GRIP_MOVE_MS = 600            # TODO: time for the gripper to finish moving
-LIFT_MOVE_MS = 800            # TODO: time for the lift to finish moving
+GRIP_MOVE_MS = 900            # TODO: time for the gripper to finish moving
+LIFT_MOVE_MS = 1000            # TODO: time for the lift to finish moving
 
 
 # ------------------------------------------------------ MISSION & ROUTE -----
 BAY_SPACING_MS = None         # TODO: timed drive from one bay junction to the next
 LOOP_PERIOD_MS = 10
 RUN_TIME_MS = 350000          # backstop: stop if a run lasts longer than this
-ROUTE_NAME = 'GRAB'
+ROUTE_NAME = 'GRAB_LEFT'

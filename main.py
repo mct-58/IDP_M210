@@ -28,8 +28,8 @@ lineSensors = LineSensors(config.LINE_OUTER_LEFT_PIN, config.LINE_INNER_LEFT_PIN
 lineFollower = LineFollower(config.BASE_SPEED, config.TURN_BIAS_FRACTION, config.LOST_TURN_FRACTION)
 junctionDetector = JunctionDetector(config.JUNCTION_CONFIRM_MS)
 turn = Turn(config.TURN_SPEED, config.JUNCTION_ADVANCE_MS, config.TURN_MIN_MS, config.TURN_TIMEOUT_MS, config.SPIN_MIN_MS)
-gripServo = sc.Servo(config.GRIP_SERVO_PIN, config.GRIP_MIN_ANGLE, config.GRIP_MAX_ANGLE)
-liftServo = sc.Servo(config.LIFT_SERVO_PIN, config.LIFT_MIN_ANGLE, config.LIFT_MAX_ANGLE)
+gripServo = Servo(config.GRIP_SERVO_PIN, config.GRIP_MIN_ANGLE, config.GRIP_MAX_ANGLE)
+liftServo = Servo(config.LIFT_SERVO_PIN, config.LIFT_MIN_ANGLE, config.LIFT_MAX_ANGLE)
 gripper = Grip(gripServo, config.GRIP_CLOSED_ANGLE, config.GRIP_OPEN_ANGLE)
 lifter = Lift(liftServo, config.LIFT_UP_ANGLE, config.LIFT_DOWN_ANGLE)
 packageHandler = PackageHandler(config.GRIP_MOVE_MS, config.LIFT_MOVE_MS)
@@ -55,6 +55,7 @@ while True:
         break
     sleep_ms(config.LOOP_PERIOD_MS)
 '''    
+sleep_ms(3000)
 
 try:
     runStart = ticks_ms()
