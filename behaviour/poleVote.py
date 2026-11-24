@@ -25,9 +25,9 @@ class PoleVote:
                 maxVal = i
 
         resultIndex = tempL.index(maxVal)
-        if resultIndex = 0:
+        if resultIndex == 0:
             return 'north'
-        if resultIndex = 1:
+        if resultIndex == 1:
             return 'south'
-        if resultIndex = 2:
+        if resultIndex == 2:
             return None
