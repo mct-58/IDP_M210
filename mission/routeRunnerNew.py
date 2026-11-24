@@ -1,7 +1,8 @@
 from utime import ticks_diff
 
 class Runner:
-    def __init__(self, route, follower, detector, turn, lineEndMs, packageHandler, entranceDetector, grippingDetector, backDetector, reverseTimeoutMs, approachSpeedFrac=0.5, checkWindowMs=200):
+    def __init__(self, route, follower, detector, turn, lineEndMs, packageHandler, entranceDetector,
+     grippingDetector, backDetector, reverseTimeoutMs, poleVote, magnetReadMs, approachSpeedFrac=0.5, checkWindowMs=200):
         self.route = route
         self.follower = follower
         self.detector = detector
@@ -10,11 +11,14 @@ class Runner:
         self.entranceDetector = entranceDetector
         self.grippingDetector = grippingDetector
         self.backDetector = backDetector
+        self.poleVote = poleVote
+        self.magnetReadMs = magnetReadMs
         self.lineEndMs = lineEndMs
         self.stepIndex = 0
         self.stepStart = None
         self.junctionCount = 0
         self.lostSince = None
+        self.polarity = None
         self.finished = False
         self.packageCommand = None
         self.objectOutcome = None
@@ -34,6 +38,8 @@ class Runner:
         self.entranceDetector.reset()
         self.grippingDetector.reset()
         self.backDetector.reset()
+        self.poleVote.reset()
+        self.polarity = None
     
         step = self.route[self.stepIndex]
         if step[0] == 'turn':
@@ -58,7 +64,7 @@ class Runner:
         else:
             self._beginStep(now)
 
-    def update(self, ol, il, ir, orr, now, frontNew=False, frontDistance=None, backNew=False, backDistance=None):
+    def update(self, ol, il, ir, orr, now, frontNew=False, frontDistance=None, backNew=False, backDistance=None, magnetReading=None):
 
         if self.finished:
             self.packageCommand = None
@@ -157,6 +163,13 @@ class Runner:
                 self._nextStep(now)
                 return (0,0)
             return (step[2], step[2])
+        
+        if step[0] == 'identify':
+            if ticks_diff(now, self.stepStart) <= self.magnetReadMs:
+                self.poleVote.add(magnetReading)
+                pass
+            self.polarity = self.poleVote.result()
+            return self.polarity
 
         self.finished = True
         return (0,0)
