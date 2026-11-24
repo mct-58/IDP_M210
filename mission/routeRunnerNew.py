@@ -39,7 +39,6 @@ class Runner:
         self.grippingDetector.reset()
         self.backDetector.reset()
         self.poleVote.reset()
-        self.polarity = None
     
         step = self.route[self.stepIndex]
         if step[0] == 'turn':
@@ -56,6 +55,8 @@ class Runner:
             self.objectOutcome = None
         if step[0] == 'reverseTo':
             self.backDetector.setDist(step[1])
+        if step[0] == 'identify':
+            self.polarity = None
 
     def _nextStep(self, now):
         self.stepIndex += 1
@@ -120,6 +121,8 @@ class Runner:
         if step[0] == 'pickup' or step[0] == 'unload':
             status, self.packageCommand = self.packageHandler.update(now)
             if status == 'done':
+                if step[0] == 'unload':
+                    self.polarity = None
                 self._nextStep(now)
             elif status != 'running':
                 raise RuntimeError('package handler is not active for the current route step')
@@ -167,9 +170,10 @@ class Runner:
         if step[0] == 'identify':
             if ticks_diff(now, self.stepStart) <= self.magnetReadMs:
                 self.poleVote.add(magnetReading)
-                pass
+                return (0,0)
             self.polarity = self.poleVote.result()
-            return self.polarity
+            self._nextStep(now)
+            return (0,0)
 
         self.finished = True
         return (0,0)
