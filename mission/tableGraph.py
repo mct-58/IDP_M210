@@ -3,11 +3,10 @@ class TableGraph:
         self.edgeList = edgeList
         self.adjacency = {}
         for edge in self.edgeList:
-            for fromNode, toNode in edge:
-                if fromNode not in self.adjacency:
-                    self.adjacency[fromNode] = []
-                if toNode not in self.adjacency:
-                    self.adjacency[toNode] = []
+            if edge[0] not in self.adjacency:
+                self.adjacency[edge[0]] = []
+            if edge[1] not in self.adjacency:
+                self.adjacency[edge[1]] = []
             self.adjacency[edge[0]].append((edge[1], edge[2], edge[3], edge[4]))
             self.adjacency[edge[1]].append((edge[0], (edge[2] + 2) % 4, edge[3], edge[4]))
 
@@ -16,12 +15,9 @@ class TableGraph:
 
     def edge(self, a, b):
         desiredEdge = None
-        for edge in self.edgeList:
-            if edge[0] == a and (edge[1] == b):
+        for edge in self.adjacency[a]:
+            if edge[0] == b:
                 desiredEdge = edge
-            elif edge[0] == b and (edge[1] == a):
-                desiredEdge = edge
-        return (desiredEdge[2], desiredEdge[3])
+        return (desiredEdge[1], desiredEdge[2])
 
     def shortestPath(self, start, goal):
-        
