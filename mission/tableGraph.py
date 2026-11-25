@@ -21,6 +21,9 @@ class TableGraph:
         return (desiredEdge[1], desiredEdge[2])
 
     def shortestPath(self, start, goal):
+        if start == goal:
+            return [start]
+
         '''
         dist = {}
         prev = {}
@@ -34,13 +37,16 @@ class TableGraph:
 `       '''
         working_nodes = []
         fixed_nodes = []
-        fixed_nodenames = []
+        fixed_nodenames = [start]
         current = start
+        first_time = True
+        
         while True:
             for edge in self.adjacency[current]:
                 if edge[4]: #route is drivable
-                    if current == start:
+                    if first_time:
                         working_nodes.append((edge[0], current, edge[3]))   # ('B, 'A', 3)
+                        first_time = False
                     else:
                         working_nodes.append((edge[0], current, minDist + edge[3]))
                 else:
@@ -54,13 +60,36 @@ class TableGraph:
                     minNode = node
                 else:
                     pass
-            
+            if minNode is None:
+                return None
+
             fixed_nodes.append(minNode)
             fixed_nodenames.append(minNode[0])
             current = minNode[0]
             if current == goal:
                 break
+
         print("min distance from start to goal is " + str(minDist))
+
+        # now need to digest route from fixed_nodes
+        route = [goal]
+        desired_node = goal
+        while desired_node != start:
+            predecessor = None
+            for node in fixed_nodes:
+                if node[0] == desired_node:
+                    predecessor = node[1]
+                    break
+            if predecessor is None or predecessor in route:
+                return None
+            route.append(predecessor)
+            desired_node = predecessor
+
+        route.reverse()
+        # route now should be e.g. ['A', 'B', 'D', 'G']
+        return route
+
+
 
 
 
