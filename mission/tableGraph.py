@@ -21,3 +21,17 @@ class TableGraph:
         return (desiredEdge[1], desiredEdge[2])
 
     def shortestPath(self, start, goal):
+        dist = {}
+        prev = {}
+        finished = []
+
+        for node in self.adjacency:
+            if node == start:
+                dist[node] = 0
+            else:
+                dist[node] = float('inf')
+
+        while True:
+            neighbours = []
+            for edge in self.adjacency[start]:
+                neighbours.append(edge[0])
