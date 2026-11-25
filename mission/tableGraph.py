@@ -22,22 +22,17 @@ class TableGraph:
 
     def shortestPath(self, start, goal):
         if start == goal:
-            return [start]
+            return [[start], 0]
 
         working_nodes = []
         fixed_nodes = []
         fixed_nodenames = [start]
         current = start
-        first_time = True
         minDist = 0
         while True:
             for edge in self.adjacency[current]:
-                if edge[3]: #route is drivable
-                    if first_time:
-                        working_nodes.append((edge[0], current, edge[2]))   # ('B, 'A', 3)
-                        first_time = False
-                    else:
-                        working_nodes.append((edge[0], current, minDist + edge[2]))
+                if edge[3]: #route is drivable    
+                    working_nodes.append((edge[0], current, minDist + edge[2]))
                 else:
                     pass
             
