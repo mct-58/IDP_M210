@@ -24,31 +24,20 @@ class TableGraph:
         if start == goal:
             return [start]
 
-        '''
-        dist = {}
-        prev = {}
-        finished = []
-
-        for node in self.adjacency:
-            if node == start:
-                dist[node] = 0
-            else:
-                dist[node] = float('inf')
-`       '''
         working_nodes = []
         fixed_nodes = []
         fixed_nodenames = [start]
         current = start
         first_time = True
-        
+        minDist = 0
         while True:
             for edge in self.adjacency[current]:
-                if edge[4]: #route is drivable
+                if edge[3]: #route is drivable
                     if first_time:
-                        working_nodes.append((edge[0], current, edge[3]))   # ('B, 'A', 3)
+                        working_nodes.append((edge[0], current, edge[2]))   # ('B, 'A', 3)
                         first_time = False
                     else:
-                        working_nodes.append((edge[0], current, minDist + edge[3]))
+                        working_nodes.append((edge[0], current, minDist + edge[2]))
                 else:
                     pass
             
@@ -87,7 +76,7 @@ class TableGraph:
 
         route.reverse()
         # route now should be e.g. ['A', 'B', 'D', 'G']
-        return route
+        return route, minDist
 
 
 
