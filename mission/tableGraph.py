@@ -34,4 +34,4 @@ class TableGraph:
         while True:
             neighbours = []
             for edge in self.adjacency[start]:
-                neighbours.append(edge[0])
+                neighbours.append((edge[0], edge[2]))

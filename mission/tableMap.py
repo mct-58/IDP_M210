@@ -27,25 +27,25 @@ S = 2
 W = 3
 
 # --------------------------------------------------- LENGTHS (mm) ----------
-# Sketch estimates. MEASURE ON THE TABLE before relying on them - especially
-# BAY_SPACING_MM, DECK_SPACING_MM and anything under ~250 mm, because the
-# route translator uses lengths to decide which junctions are already behind
-# the sensors (132 mm ahead of the axle) after a turn.
-FRONT_SIDE_MM = 655          # start box side -> front corner (820 - 165)
-BOX_HALF_MM = 165            # centre line -> start box side
-BOX_FRONT_MM = 155           # front line -> start box front edge     TODO measure
-BOX_BACK_MM = 230            # front line -> start box back edge      TODO measure
-TO_DECK_MM = 950             # StartBF -> first deck junction, incl. ramp   TODO measure
-DECK_SPACING_MM = 113        # between deck junctions                 TODO measure
-DECK_END_MM = 100            # last deck junction -> end of deck line TODO measure
-DECK_STUB_MM = 280           # deck junction -> upper bay end         TODO measure
-CORNER_TO_DEPOT_MM = 610     # front corner -> first depot junction   TODO check
-DEPOT_SPACING_MM = 240       # between the two depot junctions        TODO measure
-DEPOT_TO_BAY_MM = 410        # second depot junction -> first bay junction   TODO measure
-BAY_SPACING_MM = 113         # between lower bay junctions            TODO measure
-EDGE_END_MM = 100            # last bay junction -> top end of edge line     TODO measure
-DEPOT_STUB_MM = 185          # edge line -> depot box
-BAY_STUB_MM = 300            # edge line -> lower bay end             TODO measure
+# Measured on the table, 25 Nov 2026 (right half). Centre of tape to centre
+# of tape; line ends to the end of the tape. The route translator uses these
+# to decide which junctions are already behind the sensors after a turn, so
+# re-measure if the table or the robot's sensor position changes.
+FRONT_SIDE_MM      = 830   # start box side -> front corner
+BOX_HALF_MM        = 170   # centre line -> start box side
+BOX_FRONT_MM       = 170   # front line -> start box front edge
+BOX_BACK_MM        = 160   # front line -> start box back edge
+TO_DECK_MM         = 1350   # StartBF -> first deck junction, incl. ramp
+DECK_SPACING_MM    = 100   # between deck junctions
+DECK_END_MM        = 125   # last deck junction -> end of deck line
+DECK_STUB_MM       = 365   # deck junction -> upper bay end
+CORNER_TO_DEPOT_MM = 610   # front corner -> first depot junction
+DEPOT_SPACING_MM   = 300   # between the two depot junctions
+DEPOT_TO_BAY_MM    = 590   # second depot junction -> first bay junction
+BAY_SPACING_MM     = 95   # between lower bay junctions
+EDGE_END_MM        = 120   # last bay junction -> top end of edge line
+DEPOT_STUB_MM      = 190   # edge line -> depot box
+BAY_STUB_MM        = 480   # edge line -> lower bay end
 
 BAYS_PER_RACK = 6
 DEPOTS_PER_SIDE = 2
