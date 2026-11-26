@@ -11,8 +11,7 @@ class RouteBuilder:
             return 'right'
         if delta == 3:
             return 'left'
-        if delta in (0, 2):
-            raise TypeError
+        raise ValueError('Delta is either 0 or 2 or a weird other number')
 
     def _label(self, node, heading):
         labels = []
@@ -34,15 +33,20 @@ class RouteBuilder:
         prev = runStart
         count = 0
         runningD = 0
+
         for node in runNodes:
-            desiredEdge = None
-            for edge in self.graph.branches(prev):
-                if edge[0] == node:
-                    desiredEdge = edge
-            runningD += desiredEdge[2]
+            desiredEdge = self.graph.edge(prev, node)
+            runningD += desiredEdge[1]
             if runningD <= (self.sensorOffsetMm - self.marginMm):
                 pass
-            if self._label(node) == label:
-                count += 1
+            elif runnignD < (self.sensorOffsetMm + self.marginMm):
+                raise ValueError
+            else:
+                if self._label(node, heading) == label:
+                    count += 1
+
+            prev = node
+
+        return count
 
     def build(self, path, startHeading):
