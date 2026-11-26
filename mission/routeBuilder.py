@@ -7,14 +7,12 @@ class RouteBuilder:
         self.advanceSpeed = advanceSpeed
 
     def _turnName(self, delta):
-        try:
-            if delta == 1:
-                return 'right'
-            if delta == 3:
-                return 'left'
-            return None
-        except:
-            print('passed in a 2 or a 0 for delta')
+        if delta == 1:
+            return 'right'
+        if delta == 3:
+            return 'left'
+        if delta in (0, 2):
+            raise TypeError
 
     def _label(self, node, heading):
         labels = []
@@ -32,6 +30,19 @@ class RouteBuilder:
             return 'left'
         return None
 
-    def _count(self, runStart, runNodes, label):
+    def _count(self, runStart, runNodes, heading, label):
+        prev = runStart
+        count = 0
+        runningD = 0
+        for node in runNodes:
+            desiredEdge = None
+            for edge in self.graph.branches(prev):
+                if edge[0] == node:
+                    desiredEdge = edge
+            runningD += desiredEdge[2]
+            if runningD <= (self.sensorOffsetMm - self.marginMm):
+                pass
+            if self._label(node) == label:
+                count += 1
 
     def build(self, path, startHeading):
