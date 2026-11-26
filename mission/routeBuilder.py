@@ -39,7 +39,7 @@ class RouteBuilder:
             runningD += desiredEdge[1]
             if runningD <= (self.sensorOffsetMm - self.marginMm):
                 pass
-            elif runnignD < (self.sensorOffsetMm + self.marginMm):
+            elif runningD < (self.sensorOffsetMm + self.marginMm):
                 raise ValueError
             else:
                 if self._label(node, heading) == label:

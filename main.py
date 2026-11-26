@@ -46,7 +46,7 @@ lifter.lower()
 route = getattr(routes, config.ROUTE_NAME)
 runner = Runner(route, lineFollower, junctionDetector, turn, config.LINE_END_MS, packageHandler)
 
-'''
+
 while True:
     now = ticks_ms()
     raw = startButton.read()
@@ -54,8 +54,8 @@ while True:
     if possiblePress:
         break
     sleep_ms(config.LOOP_PERIOD_MS)
-'''    
-sleep_ms(3000)
+ 
+#sleep_ms(3000)
 
 try:
     runStart = ticks_ms()
