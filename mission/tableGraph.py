@@ -53,7 +53,7 @@ class TableGraph:
             if current == goal:
                 break
 
-        print("min distance from start to goal is " + str(minDist))
+        #print("min distance from start to goal is " + str(minDist))
 
         # now need to digest route from fixed_nodes
         route = [goal]

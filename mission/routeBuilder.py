@@ -50,6 +50,15 @@ class RouteBuilder:
 
         return (count, runningD)
 
+    def _lineAheadMm(self, node, heading):
+        total = 0
+        while True:
+            ahead = [b for b in self.graph.branches(node) if b[1] == heading]
+            if not ahead:
+                return total
+            node = ahead[0][0]
+            total += ahead[0][2]
+
     def build(self, path, startHeading):
         if len(path) < 2:
             return ([], startHeading) 
@@ -66,7 +75,7 @@ class RouteBuilder:
                 route.append(('pivot', self._turnName(delta)))
                 currentHeading = pathEdges[0][0]
             if delta == 2:
-                if pathEdges[0][1] > (self.sensorOffsetMm + self.marginMm):
+                if self._lineAheadMm(pathEdges[0][0]) > (self.sensorOffsetMm + self.marginMm):
                     route.append(('spin', 'right'))
                 else:
                     raise ValueError('Not long enough to perform a U-turn')
