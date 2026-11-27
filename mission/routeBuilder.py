@@ -51,18 +51,21 @@ class RouteBuilder:
         return (count, runningD)
 
     def build(self, path, startHeading):
-        if len(path) <= 2:
+        if len(path) < 2:
             return ([], startHeading) 
         route = []
         pathEdges = []
         currentHeading = startHeading
-        for i in range([0:len(path) -2]):
+        for i in range(len(path) - 1):
             pathEdges.append(self.graph.edge(path[i], path[i + 1]))
         if startHeading != pathEdges[0][0]:
             delta = (pathEdges[0][0] - startHeading) % 4
             if delta == 1 or (delta == 3):
                 route.append(('pivot', self._turnName(delta)))
-                currentHeading = path[0][0]
+                currentHeading = pathEdges[0][0]
             if delta == 2:
-                route.append(('spin', 'right'))
-                currentHeading = path[0][0]
+                if pathEdges[0][1] > (self.sensorOffsetMm + self.marginMm):
+                    route.append(('spin', 'right'))
+                else:
+                    raise ValueError('Not long enough to perform a U-turn')
+                currentHeading = pathEdges[0][0]
