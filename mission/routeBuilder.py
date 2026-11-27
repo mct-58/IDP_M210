@@ -40,6 +40,8 @@ class RouteBuilder:
             if runningD <= (self.sensorOffsetMm - self.marginMm):
                 pass
             elif runningD < (self.sensorOffsetMm + self.marginMm):
+                if self._label(node, heading) == label:
+                    count += 1
                 raise ValueError
             else:
                 if self._label(node, heading) == label:
@@ -47,6 +49,6 @@ class RouteBuilder:
 
             prev = node
 
-        return count
+        return (count, runningD)
 
     def build(self, path, startHeading):
