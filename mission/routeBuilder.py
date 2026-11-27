@@ -75,7 +75,7 @@ class RouteBuilder:
                 route.append(('pivot', self._turnName(delta)))
                 currentHeading = pathEdges[0][0]
             if delta == 2:
-                if self._lineAheadMm(pathEdges[0][0]) > (self.sensorOffsetMm + self.marginMm):
+                if self._lineAheadMm(path[0], pathEdges[0][0]) > (self.sensorOffsetMm + self.marginMm):
                     route.append(('spin', 'right'))
                 else:
                     raise ValueError('Not long enough to perform a U-turn')
