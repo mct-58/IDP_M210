@@ -27,7 +27,7 @@ TOF_BACK_SCL_PIN = 11         # TODO
 MAGNET_PIN = 26
 
 # Start button, LEDs (via opto-isolator), IR receiver
-START_BUTTON_PIN = None       # TODO
+START_BUTTON_PIN = 17       # TODO
 POWER_AMBER_LED_PIN = 2          # TODO
 FLASHING_AMBER_LED_PIN = 'LED' 
 RED_LED_PIN = 3            # TODO
