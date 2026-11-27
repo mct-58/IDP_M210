@@ -100,7 +100,7 @@ class RouteBuilder:
                 label =  self._label(chunks[k][1][-1], chunks[k][2])
                 count, distance = self._count(chunks[k][0], chunks[k][1], chunks[k][2], label)
                 nextHeading = chunks[k+1][2]
-                turnName = self._turnName((nextHeading - heading) % 4)
+                turnName = self._turnName((nextHeading - chunks[k][2]) % 4)
                 if count > 0:
                     route.append(('follow', count, label))
                     route.append(('turn', turnName))
@@ -108,4 +108,5 @@ class RouteBuilder:
                     route.append(('drive', round(distance * self.advanceMs / self.sensorOffsetMm), self.advanceSpeed))
                     route.append(('pivot', turnName))
                 currentHeading = nextHeading
-            
+
+        return (route, currentHeading)
