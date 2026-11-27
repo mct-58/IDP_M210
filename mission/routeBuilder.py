@@ -51,12 +51,18 @@ class RouteBuilder:
         return (count, runningD)
 
     def build(self, path, startHeading):
+        if len(path) <= 2:
+            return ([], startHeading) 
         route = []
         pathEdges = []
-        delta = 2
-        for junction in path:
-            pathEdges.append(self.graph(junction, path[path.index(junction) + 1]))
+        currentHeading = startHeading
+        for i in range([0:len(path) -2]):
+            pathEdges.append(self.graph.edge(path[i], path[i + 1]))
         if startHeading != pathEdges[0][0]:
-            delta = (startHeading - pathEdges[0][0]) % 4
-            route.append(('turn', self._turnName(delta)))
-        
+            delta = (pathEdges[0][0] - startHeading) % 4
+            if delta == 1 or (delta == 3):
+                route.append(('pivot', self._turnName(delta)))
+                currentHeading = path[0][0]
+            if delta == 2:
+                route.append(('spin', 'right'))
+                currentHeading = path[0][0]
