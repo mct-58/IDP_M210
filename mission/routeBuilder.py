@@ -1,6 +1,3 @@
-from turtle import distance
-
-
 class RouteBuilder:
     def __init__(self, graph, sensorOffsetMm, marginMm, advanceMs, advanceSpeed):
         self.graph = graph
@@ -88,12 +85,27 @@ class RouteBuilder:
                 holder = []
 
         for k in range(len(chunks)):
-            if len(self.graph.branches(chunks[k][1][-1])) == 1 or (k == len(chunks) - 1):
-                pass
+            if k == len(chunks) - 1:
+                if len(self.graph.branches(chunks[k][1][-1])) == 1:
+                    pass
+                else:
+                    label =  self._label(chunks[k][1][-1], chunks[k][2])
+                    count, distance = self._count(chunks[k][0], chunks[k][1], chunks[k][2], label)
+                    if count > 0:
+                        route.append(('follow', count, label))
+                        route.append(('drive', self.advanceMs, self.advanceSpeed))
+                    else:
+                        route.append(('drive', round(distance * self.advanceMs / self.sensorOffsetMm), self.advanceSpeed))
             else:
                 label =  self._label(chunks[k][1][-1], chunks[k][2])
                 count, distance = self._count(chunks[k][0], chunks[k][1], chunks[k][2], label)
-                
-            
-        
+                nextHeading = chunks[k+1][2]
+                turnName = self._turnName((nextHeading - heading) % 4)
+                if count > 0:
+                    route.append(('follow', count, label))
+                    route.append(('turn', turnName))
+                else:
+                    route.append(('drive', round(distance * self.advanceMs / self.sensorOffsetMm), self.advanceSpeed))
+                    route.append(('pivot', turnName))
+                currentHeading = nextHeading
             
