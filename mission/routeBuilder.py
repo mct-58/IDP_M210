@@ -69,3 +69,14 @@ class RouteBuilder:
                 else:
                     raise ValueError('Not long enough to perform a U-turn')
                 currentHeading = pathEdges[0][0]
+        chunks = []
+        holder = []
+        for j in range(len(pathEdges) - 2):
+            if j == (len(pathEdges) - 2):
+                chunks.append(holder)
+            elif pathEdges[j+1][0] == pathEdges[j][0]:
+                holder.append(path[j], path[j+1], path[j+2])
+            elif pathEdges[j+1][0] != pathEdges[j][0]:
+                chunks.append(holder)
+                holder = [path[j+1]]
+            
