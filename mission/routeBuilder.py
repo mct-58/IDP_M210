@@ -56,8 +56,10 @@ class RouteBuilder:
         route = []
         pathEdges = []
         currentHeading = startHeading
+        
         for i in range(len(path) - 1):
             pathEdges.append(self.graph.edge(path[i], path[i + 1]))
+        
         if startHeading != pathEdges[0][0]:
             delta = (pathEdges[0][0] - startHeading) % 4
             if delta == 1 or (delta == 3):
@@ -69,6 +71,7 @@ class RouteBuilder:
                 else:
                     raise ValueError('Not long enough to perform a U-turn')
                 currentHeading = pathEdges[0][0]
+        
         chunks = []
         runStart = path[0]
         holder = []
@@ -80,4 +83,14 @@ class RouteBuilder:
                 chunks.append((runStart, holder, heading))
                 runStart = path[j + 1]
                 holder = []
+
+        for k in range(len(chunks)):
+            if len(self.graph.banches(chunks[k][1][-1])) == 1 or (k == len(chunks)):
+                route.append(('toEnd',))
+            else:
+                label =  self._turnName((chunks[k+1] - chunks[k][2]) % 4)
+                count = self._count(chunks[k][0], chunks[k][1], chunks[k][2], label)
+                
+            
+        
             
