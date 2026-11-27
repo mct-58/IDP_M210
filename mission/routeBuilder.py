@@ -1,3 +1,6 @@
+from turtle import distance
+
+
 class RouteBuilder:
     def __init__(self, graph, sensorOffsetMm, marginMm, advanceMs, advanceSpeed):
         self.graph = graph
@@ -85,11 +88,11 @@ class RouteBuilder:
                 holder = []
 
         for k in range(len(chunks)):
-            if len(self.graph.banches(chunks[k][1][-1])) == 1 or (k == len(chunks)):
-                route.append(('toEnd',))
+            if len(self.graph.branches(chunks[k][1][-1])) == 1 or (k == len(chunks) - 1):
+                pass
             else:
-                label =  self._turnName((chunks[k+1] - chunks[k][2]) % 4)
-                count = self._count(chunks[k][0], chunks[k][1], chunks[k][2], label)
+                label =  self._label(chunks[k][1][-1], chunks[k][2])
+                count, distance = self._count(chunks[k][0], chunks[k][1], chunks[k][2], label)
                 
             
         
