@@ -87,9 +87,12 @@ class RouteBuilder:
         for k in range(len(chunks)):
             if k == len(chunks) - 1:
                 if len(self.graph.branches(chunks[k][1][-1])) == 1:
-                    pass
+                    if len(chunks[k][1]) > 1:
+                        raise ValueError('Path drives straight on into a dead end at ' + chunks[k][1][-1])
                 else:
                     label =  self._label(chunks[k][1][-1], chunks[k][2])
+                    if label is None:
+                        raise ValueError('No junction to count at ' + chunks[k][1][-1])
                     count, distance = self._count(chunks[k][0], chunks[k][1], chunks[k][2], label)
                     if count > 0:
                         route.append(('follow', count, label))
